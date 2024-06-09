@@ -14,7 +14,8 @@ class _BuyPageState extends State<Buy> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppBar(        backgroundColor: Color.fromARGB(255, 41, 169, 92),
+
         title: const Text('Payment Screen'),
       ),
       body: Padding(

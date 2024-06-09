@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:provider/provider.dart';
+import 'package:untitled17/main.dart';
 import 'package:untitled17/playground.dart';
 import 'package:untitled17/profhome.dart';
 import 'package:untitled17/screens/playdet.dart';
 import 'package:untitled17/screens/side_menu.dart';
+import 'package:untitled17/screens/userevent.dart';
 import '../events.dart';
 import '../modareb.dart';
 import '../notif.dart';
@@ -29,13 +33,28 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
     double displayWidth = MediaQuery.of(context).size.width;
+
+    var themeProvider = Provider.of<ThemeProvider>(context);
+    Color appBarColor = themeProvider.themeMode == ThemeMode.dark
+        ? Color.fromARGB(255, 41, 169, 92)
+        : Color.fromARGB(255, 115, 113, 113);
+    Color backgroundColor = themeProvider.themeMode == ThemeMode.dark
+        ? Color.fromARGB(255, 32, 32, 32)
+        : Colors.grey[200]!;
+    Color textColor = themeProvider.themeMode == ThemeMode.dark
+        ? Colors.grey[200]!
+        : Colors.black;
+    Color backButtonColor = themeProvider.themeMode == ThemeMode.dark
+        ? Colors.grey[200]!
+        : Colors.black;
+
     return WillPopScope(
       onWillPop: () async {
         SystemNavigator.pop();
         return true;
       },
       child: Scaffold(
-        backgroundColor: Color(0xffF5F5F5),
+        backgroundColor: backgroundColor,
         bottomNavigationBar: Container(
           margin: EdgeInsets.only(
               bottom: displayWidth * .05,
@@ -43,14 +62,9 @@ class _HomePageState extends State<HomePage> {
               left: displayWidth * .05),
           height: displayWidth * .155,
           decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(.5),
-                blurRadius: 30,
-                offset: Offset(0, 10),
-              ),
-            ],
+            color: themeProvider.themeMode == ThemeMode.dark
+                ? Color.fromARGB(255, 41, 41, 41)
+                : Colors.white,
             borderRadius: BorderRadius.circular(50),
           ),
           child: StatefulBuilder(
@@ -69,7 +83,7 @@ class _HomePageState extends State<HomePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => HistoryPage()),
+                                builder: (context) => SubscribersPage()),
                           );
                         } else if (index == 2) {
                           Navigator.push(
@@ -141,7 +155,7 @@ class _HomePageState extends State<HomePage> {
                                         ? '${listOfString[index]}'
                                         : '',
                                     style: TextStyle(
-                                      color: Colors.black87,
+                                      color: textColor,
                                       fontWeight: FontWeight.w600,
                                       fontSize: 15,
                                     ),
@@ -167,7 +181,7 @@ class _HomePageState extends State<HomePage> {
                                         child: Icon(
                                           listOfIcons[index],
                                           size: displayWidth * .076,
-                                          color: Colors.black87,
+                                          color: textColor,
                                         ),
                                       )
                                     : Icon(
@@ -208,11 +222,16 @@ class _HomePageState extends State<HomePage> {
                         borderRadius: BorderRadius.circular(88),
                         gradient: LinearGradient(
                           begin: Alignment.bottomLeft,
-                          colors: [
-                            Color.fromARGB(255, 207, 207, 213),
-                            Color.fromARGB(255, 134, 140, 143),
-                            Color.fromARGB(255, 207, 207, 213),
-                          ],
+                          colors: themeProvider.themeMode == ThemeMode.dark
+                              ? [
+                                  Color.fromARGB(255, 41, 169, 92),
+                                  Color.fromARGB(255, 32, 32, 32),
+                                ]
+                              : [
+                                  Color.fromARGB(255, 207, 207, 213),
+                                  Color.fromARGB(255, 134, 140, 143),
+                                  Color.fromARGB(255, 207, 207, 213),
+                                ],
                         ),
                       ),
                     ),
@@ -222,153 +241,148 @@ class _HomePageState extends State<HomePage> {
                       // قم بإعادة تحميل البيانات من Firebase هنا
                       // يمكنك استدعاء الدوال اللازمة لإعادة تحميل البيانات
                     },
-                    child: SafeArea(
-                      child: Stack(
-                        children: [
-                          SingleChildScrollView(
-                            // physics: AlwaysScrollableScrollPhysics(),
+                    child: SingleChildScrollView(
+                      // physics: AlwaysScrollableScrollPhysics(),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          AppBar(
+                            backgroundColor: appBarColor,
+                            iconTheme: IconThemeData(color: backButtonColor),
+                            title: Container(
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: <Widget>[
+                                  Container(
+                                    child: CircleAvatar(
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(20),
+                                        child: const Image(
+                                          fit: BoxFit.cover,
+                                          image: AssetImage(
+                                              'images/spooooortttt.png'),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                            margin: EdgeInsets.symmetric(horizontal: 15),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: <Widget>[
-                                AppBar(
-                                  backgroundColor:
-                                      Color.fromARGB(255, 134, 140, 143),
-                                  iconTheme: IconThemeData.fallback(),
-                                  title: Container(
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 20),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: <Widget>[
-                                        Container(
-                                          child: CircleAvatar(
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              child: const Image(
-                                                fit: BoxFit.cover,
-                                                image: AssetImage(
-                                                    'images/spooooortttt.png'),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Slider(),
+                                SizedBox(
+                                  height: 25,
+                                ),
+                                Center(
+                                  child: Text(
+                                    'interest'.tr,
+                                    style: TextStyle(
+                                      fontSize: 25,
+                                      color: textColor,
                                     ),
                                   ),
                                 ),
-                                const SizedBox(
-                                  height: 10,
+                                SizedBox(
+                                  height: 25,
                                 ),
-                                Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 15),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
-                                    children: <Widget>[
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Slider(),
-                                      SizedBox(
-                                        height: 25,
-                                      ),
-                                      Center(
-                                        child: Text(
-                                          "What are you looking for?",
-                                          style: TextStyle(
-                                            fontSize: 25,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 25,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                  builder: (context) {
-                                                    return EventScreen();
-                                                  },
-                                                ),
-                                              );
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) {
+                                              return EventScreen();
                                             },
-                                            child: NewPadding(
-                                              image:
-                                                  'images/Fitness_couple_running_vector_image_on_VectorStock-removebg-preview.png',
-                                              text: 'Events',
-                                            ),
                                           ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                  builder: (context) {
-                                                    return Playground();
-                                                  },
-                                                ),
-                                              );
-                                            },
-                                            child: NewPadding(
-                                              image:
-                                                  'images/Playgroundhome.png',
-                                              text: 'Playground',
-                                            ),
-                                          ),
-                                        ],
+                                        );
+                                      },
+                                      child: NewPadding(
+                                        image:
+                                            'images/Fitness_couple_running_vector_image_on_VectorStock-removebg-preview.png',
+                                        text: 'events'.tr,
+                                        textColor: textColor,
                                       ),
-                                      SizedBox(
-                                        height: 30,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                  builder: (context) {
-                                                    return DisplayTrainersPage();
-                                                  },
-                                                ),
-                                              );
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) {
+                                              return Playground();
                                             },
-                                            child: NewPadding(
-                                              image:
-                                                  'images/WhatsApp_Image_2023-12-13_at_10.33.02_PM-removebg-preview.png',
-                                              text: 'Trainers',
-                                            ),
                                           ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                  builder: (context) {
-                                                    return DisplayProductsPage();
-                                                  },
-                                                ),
-                                              );
-                                            },
-                                            child: NewPadding(
-                                              image:
-                                                  'images/ea819bf4-ebaf-49d0-9acd-60d8f0ee9aad-removebg-preview.png',
-                                              text: 'Swap',
-                                            ),
-                                          ),
-                                        ],
+                                        );
+                                      },
+                                      child: NewPadding(
+                                        image: 'images/Playgroundhome.png',
+                                        text: 'playground'.tr,
+                                        textColor: textColor,
                                       ),
-                                    ],
-                                  ),
-                                )
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 30,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) {
+                                              return DisplayTrainersPage();
+                                            },
+                                          ),
+                                        );
+                                      },
+                                      child: NewPadding(
+                                        image:
+                                            'images/WhatsApp_Image_2023-12-13_at_10.33.02_PM-removebg-preview.png',
+                                        text: 'trainers'.tr,
+                                        textColor: textColor,
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) {
+                                              return DisplayProductsPage();
+                                            },
+                                          ),
+                                        );
+                                      },
+                                      child: NewPadding(
+                                        image:
+                                            'images/ea819bf4-ebaf-49d0-9acd-60d8f0ee9aad-removebg-preview.png',
+                                        text: 'swapTools'.tr,
+                                        textColor: textColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ],
                             ),
-                          ),
+                          )
                         ],
                       ),
                     ),
@@ -400,11 +414,13 @@ class _HomePageState extends State<HomePage> {
 class NewPadding extends StatelessWidget {
   final String image;
   final String text;
+  final Color textColor;
 
   const NewPadding({
     Key? key,
     required this.image,
     required this.text,
+    required this.textColor,
   });
 
   @override
@@ -428,16 +444,17 @@ class NewPadding extends StatelessWidget {
             Container(
               width: 100,
               height: 25,
-              color: Color(0xffF5F5F5),
+              color: Colors.transparent,
               margin: EdgeInsets.only(top: 125, left: 30, bottom: 25),
               child: Center(
                 child: Text(
                   text,
                   style: const TextStyle(
-                      color: Colors.black87,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w800,
-                      decoration: TextDecoration.none),
+                    color: Colors.black87,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w800,
+                    decoration: TextDecoration.none,
+                  ).copyWith(color: textColor),
                 ),
               ),
             ),
@@ -497,9 +514,10 @@ class Slider extends StatelessWidget {
                         child: Text(
                           "\n 50% Off",
                           style: TextStyle(
-                              fontSize: 28,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white),
+                            fontSize: 28,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                       const SizedBox(

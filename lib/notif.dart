@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:untitled17/profhome.dart';
 import 'package:untitled17/screens/history.dart';
 import 'package:untitled17/screens/home_page.dart';
-
 import 'package:untitled17/screens/side_menu.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:untitled17/main.dart';
+import 'package:untitled17/screens/userevent.dart';
 
+import 'events.dart';
+import 'main.dart';
 
 class NotificationsPage extends StatefulWidget {
   @override
@@ -16,34 +18,31 @@ class NotificationsPage extends StatefulWidget {
 
 class _NotificationsPageState extends State<NotificationsPage> {
   var currentIndex = 2;
+
   @override
   Widget build(BuildContext context) {
     double displayWidth = MediaQuery.of(context).size.width;
     var themeProvider = Provider.of<ThemeProvider>(context);
 
-    Color appBarColor = themeProvider.themeMode == ThemeMode.dark
-        ? Colors.black
-        : Color.fromARGB(255, 221, 225, 231);
-    Color backgroundColor = themeProvider.themeMode == ThemeMode.dark
-        ? Colors.grey[900]!
-        : Color(0xffF5F5F5);
-    Color textColor =
-    themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.black;
-    Color backButtonColor =
-    themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.black;
-
+    Color textColor = themeProvider.themeMode == ThemeMode.dark
+        ? Colors.grey[200]!
+        : Colors.black;
+    Color cardColor = themeProvider.themeMode == ThemeMode.dark
+        ? const Color.fromARGB(255, 0, 0, 0)!
+        : const Color.fromARGB(255, 238, 238, 238);
+    Color backButtonColor = themeProvider.themeMode == ThemeMode.dark
+        ? Colors.grey[200]!
+        : Colors.black;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: themeProvider.themeMode == ThemeMode.dark
-            ? Colors.grey[800]
-            : Colors.grey,
+        backgroundColor: Color.fromARGB(255, 41, 169, 92),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
-        title: Text('Notifications', style: TextStyle(color: Colors.white)),
+        title: Text('notifications'.tr),
         iconTheme: IconThemeData(color: backButtonColor),
       ),
       backgroundColor: themeProvider.themeMode == ThemeMode.dark
@@ -58,8 +57,87 @@ class _NotificationsPageState extends State<NotificationsPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    // Add your widgets here
                     SizedBox(height: 20),
+                    StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection('accepted_events')
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(child: CircularProgressIndicator());
+                        }
+                        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                          return Center(child: Text('لا توجد فعاليات حالياً'));
+                        }
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (context, index) {
+                            var event = snapshot.data!.docs[index];
+                            var eventName = event['name'];
+                            var eventType = event['eventType'];
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => EventScreen(),
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                margin: EdgeInsets.symmetric(vertical: 8.0),
+                                padding: EdgeInsets.all(16.0),
+                                decoration: BoxDecoration(
+                                  color: cardColor,
+                                  borderRadius: BorderRadius.circular(12.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.2),
+                                      spreadRadius: 2,
+                                      blurRadius: 5,
+                                      offset: Offset(0, 3),
+                                    ),
+                                  ],
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'New events have been added with a name: $eventName'
+                                          .tr,
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: textColor,
+                                      ),
+                                    ),
+                                    SizedBox(height: 8),
+                                    Text(
+                                      'event type: $eventType'.tr,
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: textColor,
+                                      ),
+                                    ),
+                                    SizedBox(height: 8),
+                                    Text(
+                                      'Visit_the_events_page_now_to_see_what_is_new'
+                                          .tr,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: textColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -68,17 +146,15 @@ class _NotificationsPageState extends State<NotificationsPage> {
         ),
       ),
       bottomNavigationBar: Container(
-        margin: EdgeInsets.all(displayWidth * .05),
+        margin: EdgeInsets.only(
+            bottom: displayWidth * .05,
+            right: displayWidth * .05,
+            left: displayWidth * .05),
         height: displayWidth * .155,
         decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(.1),
-                blurRadius: 30,
-                offset: Offset(0, 10),
-              ),
-            ],
+            color: themeProvider.themeMode == ThemeMode.dark
+                ? Color.fromARGB(255, 41, 41, 41)
+                : Colors.white,
             borderRadius: BorderRadius.circular(50)),
         child: StatefulBuilder(
           builder: (context, setStateHistory) {
@@ -98,7 +174,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => HistoryPage()));
+                              builder: (context) => SubscribersPage()));
                     } else if (index == 3) {
                       Navigator.push(
                           context,
@@ -128,7 +204,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                         decoration: BoxDecoration(
                             color: index == currentIndex
                                 ? Color.fromARGB(255, 134, 140, 143)
-                                .withOpacity(.2)
+                                    .withOpacity(.2)
                                 : Colors.transparent,
                             borderRadius: BorderRadius.circular(50)),
                       ),
@@ -160,7 +236,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                       ? '${listOfString[index]}'
                                       : '',
                                   style: TextStyle(
-                                    color: Colors.black87,
+                                    color: textColor,
                                     fontWeight: FontWeight.w600,
                                     fontSize: 15,
                                   ),
@@ -177,26 +253,23 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                     ? displayWidth * .03
                                     : 20,
                               ),
-                              index == 1
+                              index == currentIndex
                                   ? ScaleTransition(
-                                scale: CurvedAnimation(
-                                    parent: AlwaysStoppedAnimation(1),
-                                    curve: Curves.fastLinearToSlowEaseIn),
-                                child: Icon(
-                                  listOfIcons[index],
-                                  size: displayWidth * .076,
-                                  color: index == currentIndex
-                                      ? Colors.black87
-                                      : Colors.black26,
-                                ),
-                              )
+                                      scale: CurvedAnimation(
+                                        parent: AlwaysStoppedAnimation(1),
+                                        curve: Curves.fastLinearToSlowEaseIn,
+                                      ),
+                                      child: Icon(
+                                        listOfIcons[index],
+                                        size: displayWidth * .076,
+                                        color: textColor,
+                                      ),
+                                    )
                                   : Icon(
-                                listOfIcons[index],
-                                size: displayWidth * .076,
-                                color: index == currentIndex
-                                    ? Colors.black87
-                                    : Colors.black26,
-                              ),
+                                      listOfIcons[index],
+                                      size: displayWidth * .076,
+                                      color: Colors.black26,
+                                    ),
                             ],
                           )
                         ],
@@ -213,10 +286,10 @@ class _NotificationsPageState extends State<NotificationsPage> {
   }
 
   List<String> listOfString = [
-    'Home',
-    'History',
-    'Notification',
-    'Profile',
+    'home'.tr,
+    'history'.tr,
+    'notification'.tr,
+    'profile'.tr,
   ];
 
   List<IconData> listOfIcons = [

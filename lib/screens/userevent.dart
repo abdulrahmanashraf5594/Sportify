@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 
 class SubscribersPage extends StatelessWidget {
   @override
@@ -9,11 +10,12 @@ class SubscribersPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Event Subscribers'),
+        backgroundColor: Color.fromARGB(255, 41, 169, 92),
+        title: Text('Event Subscribers'.tr),
       ),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: FirebaseFirestore.instance
-            .collection('event_subscribers_null')
+            .collection('event_subscribers_null'.tr)
             .snapshots(),
         builder: (BuildContext context,
             AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
@@ -23,19 +25,19 @@ class SubscribersPage extends StatelessWidget {
             );
           } else if (snapshot.hasError) {
             return Center(
-              child: Text('Error: ${snapshot.error}'),
+              child: Text('Error: ${snapshot.error}'.tr),
             );
           } else {
             if (snapshot.data!.docs.isEmpty) {
               return Center(
-                child: Text('No subscribers found.'),
+                child: Text('No subscribers found.'.tr),
               );
             }
 
             return ListView(
               children: snapshot.data!.docs.map((DocumentSnapshot document) {
                 Map<String, dynamic> subscriberData =
-                document.data()! as Map<String, dynamic>;
+                    document.data()! as Map<String, dynamic>;
 
                 if (currentUser != null &&
                     subscriberData['userId'] == currentUser.uid) {
@@ -88,12 +90,7 @@ class SubscribersPage extends StatelessWidget {
                     ),
                   );
                 } else {
-                  return Center(
-                    child: Text(
-                      'You are not authorized to view this event\'s subscribers.',
-                      style: TextStyle(color: Colors.red),
-                    ),
-                  );
+                  return Center();
                 }
               }).toList(),
             );
@@ -166,7 +163,8 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppBar(        backgroundColor: Color.fromARGB(255, 41, 169, 92),
+
         title: Text('Edit User'),
       ),
       body: Padding(

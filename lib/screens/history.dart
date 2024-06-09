@@ -1,5 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled17/main.dart';
 import 'package:untitled17/profhome.dart';
@@ -20,29 +21,22 @@ class _HistoryPageState extends State<HistoryPage> {
     double displayWidth = MediaQuery.of(context).size.width;
     var themeProvider = Provider.of<ThemeProvider>(context);
 
-    Color appBarColor = themeProvider.themeMode == ThemeMode.dark
-        ? Colors.black
-        : Color.fromARGB(255, 221, 225, 231);
-    Color backgroundColor = themeProvider.themeMode == ThemeMode.dark
-        ? Colors.grey[900]!
-        : Color(0xffF5F5F5);
-    Color textColor =
-    themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.black;
-    Color backButtonColor =
-    themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.black;
-
+    Color textColor = themeProvider.themeMode == ThemeMode.dark
+        ? Colors.grey[200]!
+        : Colors.black;
+    Color backButtonColor = themeProvider.themeMode == ThemeMode.dark
+        ? Colors.grey[200]!
+        : Colors.black;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: themeProvider.themeMode == ThemeMode.dark
-            ? Colors.grey[800]
-            : Colors.grey,
+        backgroundColor: Color.fromARGB(255, 41, 169, 92),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
-        title: Text('History', style: TextStyle(color: Colors.white)),
+        title: Text('History'.tr, style: TextStyle(color: Colors.white)),
         iconTheme: IconThemeData(color: backButtonColor),
       ),
       backgroundColor: themeProvider.themeMode == ThemeMode.dark
@@ -67,17 +61,15 @@ class _HistoryPageState extends State<HistoryPage> {
         ),
       ),
       bottomNavigationBar: Container(
-        margin: EdgeInsets.all(displayWidth * .05),
+        margin: EdgeInsets.only(
+            bottom: displayWidth * .05,
+            right: displayWidth * .05,
+            left: displayWidth * .05),
         height: displayWidth * .155,
         decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(.1),
-                blurRadius: 30,
-                offset: Offset(0, 10),
-              ),
-            ],
+            color: themeProvider.themeMode == ThemeMode.dark
+                ? Color.fromARGB(255, 41, 41, 41)
+                : Colors.white,
             borderRadius: BorderRadius.circular(50)),
         child: StatefulBuilder(
           builder: (context, setStateHistory) {
@@ -127,7 +119,7 @@ class _HistoryPageState extends State<HistoryPage> {
                         decoration: BoxDecoration(
                             color: index == currentIndex
                                 ? Color.fromARGB(255, 134, 140, 143)
-                                .withOpacity(.2)
+                                    .withOpacity(.2)
                                 : Colors.transparent,
                             borderRadius: BorderRadius.circular(50)),
                       ),
@@ -159,7 +151,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                       ? '${listOfString[index]}'
                                       : '',
                                   style: TextStyle(
-                                    color: Colors.black87,
+                                    color: textColor,
                                     fontWeight: FontWeight.w600,
                                     fontSize: 15,
                                   ),
@@ -176,26 +168,23 @@ class _HistoryPageState extends State<HistoryPage> {
                                     ? displayWidth * .03
                                     : 20,
                               ),
-                              index == 1
+                              index == currentIndex
                                   ? ScaleTransition(
-                                scale: CurvedAnimation(
-                                    parent: AlwaysStoppedAnimation(1),
-                                    curve: Curves.fastLinearToSlowEaseIn),
-                                child: Icon(
-                                  listOfIcons[index],
-                                  size: displayWidth * .076,
-                                  color: index == currentIndex
-                                      ? Colors.black87
-                                      : Colors.black26,
-                                ),
-                              )
+                                      scale: CurvedAnimation(
+                                        parent: AlwaysStoppedAnimation(1),
+                                        curve: Curves.fastLinearToSlowEaseIn,
+                                      ),
+                                      child: Icon(
+                                        listOfIcons[index],
+                                        size: displayWidth * .076,
+                                        color: textColor,
+                                      ),
+                                    )
                                   : Icon(
-                                listOfIcons[index],
-                                size: displayWidth * .076,
-                                color: index == currentIndex
-                                    ? Colors.black87
-                                    : Colors.black26,
-                              ),
+                                      listOfIcons[index],
+                                      size: displayWidth * .076,
+                                      color: Colors.black26,
+                                    ),
                             ],
                           )
                         ],

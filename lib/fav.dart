@@ -6,7 +6,8 @@ class UserEventsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppBar(        backgroundColor: Color.fromARGB(255, 41, 169, 92),
+
         title: Text('My Events'),
       ),
       body: UserEventsList(),

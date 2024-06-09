@@ -74,6 +74,11 @@ dependencies:
   animated_text_kit: ^4.2.2
   reactive_cupertino_text_field: ^0.4.0
   lottie: ^3.0.0
+  flutter_local_notifications: ^17.1.2
+  get: ^4.6.6
+  get_storage: ^2.1.1
+  gallery_saver: ^2.3.2
+ 
 
 
 
@@ -88,7 +93,7 @@ dev_dependencies:
     sdk: flutter
 
   flutter_launcher_icons: ^0.13.1
-  
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -103,7 +108,7 @@ flutter_launcher_icons:
   image_path: "images/spooooortttt.png"
   android: true
   ios: true
-  
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

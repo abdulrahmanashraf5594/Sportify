@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'auth.dart';
 import 'constants.dart';
-
 
 class ForgotPassScreen extends StatelessWidget {
   ForgotPassScreen({Key? key}) : super(key: key);
@@ -11,12 +11,11 @@ class ForgotPassScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: bgColor,
       appBar: AppBar(
-        backgroundColor: bgColor,
+        backgroundColor: Color.fromARGB(255, 41, 169, 92),
         elevation: 0,
-        title: const Text(
-          "Forget Your Password?",
+        title: Text(
+          'forget_your_password?'.tr,
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: false,
@@ -33,7 +32,7 @@ class ForgotPassScreen extends StatelessWidget {
                 onChanged: (value) {},
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
-                  hintText: "Email",
+                  hintText: "email".tr,
                   prefixIcon: const Icon(Icons.email),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -44,8 +43,9 @@ class ForgotPassScreen extends StatelessWidget {
               MaterialButton(
                 minWidth: size.width * .5,
                 height: 50,
-                color: Colors.purple,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                color: Color.fromARGB(255, 41, 169, 92),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12)),
                 onPressed: () async {
                   if (_controller.text.trim().isEmpty) {
                     showToast(context, msg: "Please enter your email");
@@ -53,8 +53,8 @@ class ForgotPassScreen extends StatelessWidget {
                   }
                   await AuhtService.forgotYourPassword(_controller.text.trim());
                 },
-                child: const Text(
-                  "Send Link",
+                child: Text(
+                  'send_link'.tr,
                   style: TextStyle(color: Colors.white),
                 ),
               ),

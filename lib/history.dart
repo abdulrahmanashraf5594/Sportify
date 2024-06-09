@@ -1,11 +1,9 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled17/main.dart';
-import 'package:untitled17/notifications.dart';
+import 'package:untitled17/notif.dart';
 import 'package:untitled17/profhome.dart';
 import 'package:untitled17/screens/home_page.dart';
-import 'package:untitled17/screens/side_menu.dart';
 
 class HistoryPage extends StatefulWidget {
   @override
@@ -19,14 +17,6 @@ class _HistoryPageState extends State<HistoryPage> {
     double displayWidth = MediaQuery.of(context).size.width;
     var themeProvider = Provider.of<ThemeProvider>(context);
 
-    Color appBarColor = themeProvider.themeMode == ThemeMode.dark
-        ? Colors.black
-        : Color.fromARGB(255, 221, 225, 231);
-    Color backgroundColor = themeProvider.themeMode == ThemeMode.dark
-        ? Colors.grey[900]!
-        : Color(0xffF5F5F5);
-    Color textColor =
-        themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.black;
     Color backButtonColor =
         themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.black;
 

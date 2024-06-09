@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../payments.dart';
 
@@ -34,8 +35,9 @@ class _InteractiveCalendarScreenState extends State<InteractiveCalendarScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Interactive Calendar'),
+      appBar: AppBar(        backgroundColor: Color.fromARGB(255, 41, 169, 92),
+
+        title: Text('Interactive Calendar'.tr),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

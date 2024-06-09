@@ -1,5 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:get/get.dart';
+import 'package:untitled17/main.dart';
 import 'package:untitled17/payments.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -30,19 +33,22 @@ class _DisplayTrainersPageState extends State<DisplayTrainersPage> {
 
   @override
   Widget build(BuildContext context) {
+    var themeProvider = Provider.of<ThemeProvider>(context);
+    
+    
+    
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.grey,
+        backgroundColor: Color.fromARGB(255, 41, 169, 92),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
-        title: Text('Display Trainers'),
+        title: Text('Display_Trainers'.tr),
         actions: [],
       ),
-      backgroundColor: Colors.grey[200],
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -64,7 +70,7 @@ class _DisplayTrainersPageState extends State<DisplayTrainersPage> {
                             borderRadius: BorderRadius.circular(30.0),
                             borderSide: BorderSide.none,
                           ),
-                          hintText: "Search",
+                          hintText: "search".tr,
                           hintStyle: TextStyle(color: Colors.grey),
                           prefixIcon: Icon(
                             Icons.search,
@@ -91,11 +97,7 @@ class _DisplayTrainersPageState extends State<DisplayTrainersPage> {
             SizedBox(
               height: 18,
             ),
-            const Divider(
-              thickness: 1,
-              color: Colors.grey,
-            ),
-            Category(),
+            Category(themeProvider: themeProvider), // تمرير themeProvider هنا
             const Divider(
               thickness: 0.5,
               color: Colors.grey,
@@ -152,6 +154,13 @@ class TrainerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var themeProvider = Provider.of<ThemeProvider>(context);
+    Color cardColor = themeProvider.themeMode == ThemeMode.dark
+        ? const Color.fromARGB(255, 0, 0, 0)!
+        : const Color.fromARGB(255, 238, 238, 238);
+    Color textColor = themeProvider.themeMode == ThemeMode.dark
+        ? Colors.grey[200]!
+        : Colors.black;
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -162,7 +171,7 @@ class TrainerCard extends StatelessWidget {
         );
       },
       child: Card(
-        color: Colors.grey[300],
+        color: cardColor,
         elevation: 5,
         margin: EdgeInsets.all(10),
         child: Padding(
@@ -195,37 +204,29 @@ class TrainerCard extends StatelessWidget {
                 ),
               SizedBox(height: 10),
               Text(
-                'Name: ${trainer['name']}',
+                'name: ${trainer['name']}'.tr,
                 style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: textColor),
               ),
               Text(
-                'Experience: ${trainer['experience']} years',
-                style: TextStyle(
-                  fontSize: 18,
-                ),
+                'experience: ${trainer['experience']} years'.tr,
+                style: TextStyle(fontSize: 18, color: textColor),
               ),
               Text(
-                'Age: ${trainer['age']}',
-                style: TextStyle(
-                  fontSize: 18,
-                ),
+                'age: ${trainer['age']}'.tr,
+                style: TextStyle(fontSize: 18, color: textColor),
               ),
               Text(
-                'Sport: ${trainer['sport']}',
-                style: TextStyle(
-                  fontSize: 18,
-                ),
+                'sport: ${trainer['sport']}'.tr,
+                style: TextStyle(fontSize: 18, color: textColor),
               ),
               SizedBox(height: 10),
               Row(
                 children: [
-
                   if (trainer['linkedin'] != null) ...[
-                    Spacer(), // Spacer لإضافة مسافة بين الصور
-
+                    Spacer(),
                     GestureDetector(
                       onTap: () {
                         launchURL(trainer['linkedin']);
@@ -236,7 +237,7 @@ class TrainerCard extends StatelessWidget {
                         height: 32,
                       ),
                     ),
-                    Spacer(), // Spacer لإضافة مسافة بين الصور
+                    Spacer(),
                   ],
                   if (trainer['youtube'] != null) ...[
                     GestureDetector(
@@ -249,7 +250,7 @@ class TrainerCard extends StatelessWidget {
                         height: 32,
                       ),
                     ),
-                    Spacer(), // Spacer لإضافة مسافة بين الصور
+                    Spacer(),
                   ],
                   if (trainer['instagram'] != null) ...[
                     GestureDetector(
@@ -262,7 +263,7 @@ class TrainerCard extends StatelessWidget {
                         height: 32,
                       ),
                     ),
-                    Spacer(), // Spacer لإضافة مسافة بين الصور
+                    Spacer(),
                   ],
                   if (trainer['twitter'] != null) ...[
                     GestureDetector(
@@ -275,7 +276,7 @@ class TrainerCard extends StatelessWidget {
                         height: 32,
                       ),
                     ),
-                    Spacer(), // Spacer لإضافة مسافة بين الصور
+                    Spacer(),
                   ],
                   if (trainer['facebook'] != null) ...[
                     GestureDetector(
@@ -288,7 +289,7 @@ class TrainerCard extends StatelessWidget {
                         height: 32,
                       ),
                     ),
-                    Spacer(), // Spacer لإضافة مسافة بين الصور
+                    Spacer(),
                   ],
                 ],
               ),
@@ -301,10 +302,16 @@ class TrainerCard extends StatelessWidget {
 }
 
 class Category extends StatelessWidget {
-  const Category({Key? key});
+  final ThemeProvider themeProvider;
+
+  const Category({Key? key, required this.themeProvider});
 
   @override
   Widget build(BuildContext context) {
+    Color textColor = themeProvider.themeMode == ThemeMode.dark
+        ? Colors.grey[200]!
+        : Colors.black;
+
     return Column(
       children: [
         Container(
@@ -319,15 +326,20 @@ class Category extends StatelessWidget {
                     child: Row(
                       children: [
                         const SizedBox(width: 12),
-                        categoryIcon("Paddle", "images/paddel.jpeg"),
+                        categoryIcon(
+                            'paddel'.tr, "images/paddel.jpeg", textColor),
                         const SizedBox(width: 12),
-                        categoryIcon("Football", "images/football.jpeg"),
+                        categoryIcon(
+                            'football'.tr, "images/football.jpeg", textColor),
                         const SizedBox(width: 12),
-                        categoryIcon("Basketball", "images/basketball.jpeg"),
+                        categoryIcon('basketball'.tr, "images/basketball.jpeg",
+                            textColor),
                         const SizedBox(width: 12),
-                        categoryIcon("Volleyball", "images/volleyball.jpeg"),
+                        categoryIcon('volleyball'.tr, "images/volleyball.jpeg",
+                            textColor),
                         const SizedBox(width: 12),
-                        categoryIcon("Tennis", "images/tennis.jpeg"),
+                        categoryIcon(
+                            'tennis'.tr, "images/tennis.jpeg", textColor),
                       ],
                     ),
                   ),
@@ -341,7 +353,7 @@ class Category extends StatelessWidget {
     );
   }
 
-  Widget categoryIcon(String text, String image) {
+  Widget categoryIcon(String text, String image, Color textColor) {
     return SizedBox(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -363,7 +375,7 @@ class Category extends StatelessWidget {
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                color: Colors.black87,
+                color: textColor,
                 fontSize: 13,
                 fontWeight: FontWeight.w400,
               ),
@@ -382,9 +394,17 @@ class TrainerDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var themeProvider = Provider.of<ThemeProvider>(context);
+    Color cardColor = themeProvider.themeMode == ThemeMode.dark
+        ? const Color.fromARGB(255, 0, 0, 0)!
+        : const Color.fromARGB(255, 238, 238, 238);
+    Color textColor = themeProvider.themeMode == ThemeMode.dark
+        ? Colors.grey[200]!
+        : Colors.black;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Trainer Details'),
+        backgroundColor: Color.fromARGB(255, 41, 169, 92),
+        title: Text('Trainer_Details'.tr),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
@@ -415,13 +435,17 @@ class TrainerDetailsScreen extends StatelessWidget {
                 ),
               ),
             SizedBox(height: 20),
-            _buildInfoItem('Name', '${trainer['name']}'),
+            _buildInfoItem(
+                context, 'name:'.tr, '${trainer['name']}'.tr, textColor),
             SizedBox(height: 8),
-            _buildInfoItem('Experience', '${trainer['experience']} years'),
+            _buildInfoItem(context, 'experience:'.tr,
+                '${trainer['experience']} years', textColor),
             SizedBox(height: 8),
-            _buildInfoItem('Age', '${trainer['age']}'),
+            _buildInfoItem(
+                context, 'age:'.tr, '${trainer['age']}'.tr, textColor),
             SizedBox(height: 8),
-            _buildInfoItem('Sport', '${trainer['sport']}'),
+            _buildInfoItem(
+                context, 'sport:'.tr, '${trainer['sport']}'.tr, textColor),
             SizedBox(height: 15),
             Container(
               width: double.infinity,
@@ -448,7 +472,7 @@ class TrainerDetailsScreen extends StatelessWidget {
                       ),
                     ),
                     child: Text(
-                      'Subscribe',
+                      'subscribe'.tr,
                       style: TextStyle(fontSize: 18, color: Colors.white),
                     ),
                   ),
@@ -461,21 +485,18 @@ class TrainerDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoItem(String title, String value) {
+  Widget _buildInfoItem(
+      BuildContext context, String title, String value, Color textColor) {
+    var themeProvider = Provider.of<ThemeProvider>(context);
+    Color cardColor = themeProvider.themeMode == ThemeMode.dark
+        ? const Color.fromARGB(255, 0, 0, 0)!
+        : const Color.fromARGB(255, 238, 238, 238);
     return Container(
       margin: EdgeInsets.only(bottom: 10),
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: cardColor,
         borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: Offset(0, 2),
-          ),
-        ],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -485,7 +506,7 @@ class TrainerDetailsScreen extends StatelessWidget {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Colors.black,
+              color: textColor,
             ),
           ),
           Text(

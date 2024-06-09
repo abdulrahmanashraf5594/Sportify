@@ -163,6 +163,7 @@ class _DetailsPageState extends State<DetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 41, 169, 92),
         title: Text('User Profile'),
       ),
       body: SingleChildScrollView(

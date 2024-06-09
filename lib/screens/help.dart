@@ -1,6 +1,9 @@
 // ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:untitled17/constants.dart';
 import 'package:untitled17/main.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -16,7 +19,8 @@ class _HelpScreenState extends State<HelpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Help!'),
+        title: Text('help!'.tr),
+        backgroundColor: Color.fromARGB(255, 41, 169, 92),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -35,7 +39,7 @@ class _HelpScreenState extends State<HelpScreen> {
   Widget _buildInfoCard() {
     final Uri whatsapp1 = Uri.parse('https://wa.me/+201064841436');
     final Uri mail1 = Uri.parse(
-        'mailto:abdocool337@gmail.com?subject=Support&body=Hello,%20I%20need%20assistance.');
+        'mailto:عبدالوهاب@gmail.com?subject=Support&body=Hello,%20I%20need%20assistance.');
     final Uri whatsapp2 = Uri.parse('https://wa.me/+201028875594');
     final Uri mail2 = Uri.parse(
         'mailto:abdulrahman.ashraf5594@gmail.com?subject=Support&body=Hello,%20I%20need%20assistance.');
@@ -55,7 +59,7 @@ class _HelpScreenState extends State<HelpScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'App Information',
+              'app_information'.tr,
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -99,18 +103,11 @@ class _HelpScreenState extends State<HelpScreen> {
                                       Text('backend: abdelwahab'),
                                       ElevatedButton.icon(
                                         onPressed: () async {
-                                          launchUrl(whatsapp1);
+                                          launchUrl(whatsapp4);
                                         },
-                                        icon: Image.asset(
-                                          'images/whatsapp.png',
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.06,
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.06,
+                                        icon: FaIcon(
+                                          FontAwesomeIcons.whatsapp,
+                                          size: 32,
                                         ),
                                         label: Text('Contact via WhatsApp'),
                                       ),
@@ -149,18 +146,11 @@ class _HelpScreenState extends State<HelpScreen> {
                                       Text('frontend: abdulrahman'),
                                       ElevatedButton.icon(
                                         onPressed: () async {
-                                          launchUrl(whatsapp2);
+                                          launchUrl(whatsapp4);
                                         },
-                                        icon: Image.asset(
-                                          'images/whatsapp.png',
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.06,
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.06,
+                                        icon: FaIcon(
+                                          FontAwesomeIcons.whatsapp,
+                                          size: 32,
                                         ),
                                         label: Text('Contact via WhatsApp'),
                                       ),
@@ -199,18 +189,11 @@ class _HelpScreenState extends State<HelpScreen> {
                                       Text('frontend: eman'),
                                       ElevatedButton.icon(
                                         onPressed: () async {
-                                          launchUrl(whatsapp3);
+                                          launchUrl(whatsapp4);
                                         },
-                                        icon: Image.asset(
-                                          'images/whatsapp.png',
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.06,
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.06,
+                                        icon: FaIcon(
+                                          FontAwesomeIcons.whatsapp,
+                                          size: 32,
                                         ),
                                         label: Text('Contact via WhatsApp'),
                                       ),
@@ -251,16 +234,9 @@ class _HelpScreenState extends State<HelpScreen> {
                                         onPressed: () async {
                                           launchUrl(whatsapp4);
                                         },
-                                        icon: Image.asset(
-                                          'images/whatsapp.png',
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.06,
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.06,
+                                        icon: FaIcon(
+                                          FontAwesomeIcons.whatsapp,
+                                          size: 32,
                                         ),
                                         label: Text('Contact via WhatsApp'),
                                       ),
@@ -289,14 +265,14 @@ class _HelpScreenState extends State<HelpScreen> {
                     );
                   },
                   icon: Icon(Icons.help),
-                  label: Text('Help'),
+                  label: Text('help'.tr),
                 ),
                 ElevatedButton.icon(
                   onPressed: () {
                     _showUpdateMessage();
                   },
                   icon: Icon(Icons.update),
-                  label: Text('Update'),
+                  label: Text('update'.tr),
                 ),
               ],
             ),
@@ -309,7 +285,7 @@ class _HelpScreenState extends State<HelpScreen> {
   void _showUpdateMessage() {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('You already have the latest update'),
+        content: Text('you_already_have_the_latest_update'.tr),
         duration: Duration(seconds: 3),
         behavior: SnackBarBehavior.floating,
       ),
@@ -328,7 +304,7 @@ launchWhatsApp1() async {
 
 launchEmail1() async {
   const emailAddress =
-      "mailto:abdocool337@gmail.com?subject=Support&body=Hello,%20I%20need%20assistance.";
+      "mailto:عبدالوهاب@gmail.com?subject=Support&body=Hello,%20I%20need%20assistance.";
 
   if (await canLaunch(emailAddress)) {
     await launch(emailAddress);

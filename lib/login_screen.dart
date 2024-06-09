@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:untitled17/main.dart';
 import 'package:untitled17/screens/home_page.dart';
 
 import 'forgetpass.dart';
@@ -146,6 +148,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var themeProvider = Provider.of<ThemeProvider>(context);
+    Color textColor = themeProvider.themeMode == ThemeMode.dark
+        ? Colors.grey[200]!
+        : Colors.black;
     return Scaffold(
       backgroundColor: const Color(0xFFD6E2EA),
       resizeToAvoidBottomInset: true,
@@ -222,8 +228,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       decoration: const InputDecoration(
                         border: InputBorder.none,
                         hintText: "Email",
-                        hintStyle: TextStyle(color: Colors.black), // تعيين لون النص للـ hintText
-
+                        hintStyle: TextStyle(
+                            color: Colors.black), // تعيين لون النص للـ hintText
                       ),
                       style: TextStyle(
                         color: Colors.black,
@@ -256,8 +262,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: "Password",
-                            hintStyle: TextStyle(color: Colors.black), // تعيين لون النص للـ hintText
-
+                            hintStyle: TextStyle(
+                                color: Colors
+                                    .black), // تعيين لون النص للـ hintText
                             suffixIcon: IconButton(
                               onPressed: () {
                                 setState(() {
@@ -317,7 +324,7 @@ class _LoginScreenState extends State<LoginScreen> {
             MaterialButton(
               minWidth: 250.0,
               height: 50,
-              color: Colors.blue,
+              color: Color.fromARGB(255, 41, 169, 92),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -338,7 +345,10 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("Don't you have an account?"),
+                  const Text(
+                    "Don't you have an account?",
+                    style: TextStyle(color: Colors.black),
+                  ),
                   TextButton(
                     onPressed: () {
                       Navigator.push(
@@ -358,16 +368,6 @@ class _LoginScreenState extends State<LoginScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                GestureDetector(
-                  onTap: () {
-                    loginWithApple();
-                  },
-                  child: Image.asset(
-                    'images/apple-logo.png',
-                    width: 40,
-                    height: 40,
-                  ),
-                ),
                 GestureDetector(
                   onTap: () {
                     loginWithGoogle();

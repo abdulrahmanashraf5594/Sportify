@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
 import 'package:untitled17/screens/setting.dart';
 import 'package:untitled17/screens/userevent.dart';
 
@@ -78,6 +79,8 @@ class SideMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.of(context).size.height;
+
     return Drawer(
       child: Container(
         color: const Color.fromARGB(255, 55, 55, 55),
@@ -107,7 +110,8 @@ class SideMenu extends StatelessWidget {
                 color: Color.fromARGB(255, 55, 55, 55),
               ),
             ),
-            _buildMenuItem('Be a Trainer', Icons.group_add, () async {
+            SizedBox(height: screenHeight * 0.05),
+            _buildMenuItem('beATrainer'.tr, Icons.group_add, () async {
               User? user = FirebaseAuth.instance.currentUser;
 
               if (user != null) {
@@ -138,40 +142,32 @@ class SideMenu extends StatelessWidget {
                 }
               }
             }),
-
-            _buildMenuItem('Setting', Icons.settings, () {
+            _buildMenuItem('settings'.tr, Icons.settings, () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => SettingsPage()),
               );
             }),
-            _buildMenuItem('Profile', Icons.person, () {
+            _buildMenuItem('profile'.tr, Icons.person, () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => ProfilePage()),
               );
             }),
-            _buildMenuItem('Search', Icons.search, () {
+            _buildMenuItem('history'.tr, Icons.history_rounded, () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => SubscribersPage()),
               );
             }),
-            _buildMenuItem('Saved', Icons.bookmark, () {
-              // اضف الاجراء الذي تريده لهذا الزر
-            }),
-            _buildMenuItem('Favorites', Icons.favorite, () {
-              // اضف الاجراء الذي تريده لهذا الزر
-            }),
+            Spacer(),
             const Divider(
               color: Colors.white,
             ),
-            _buildMenuItem('Log out', Icons.logout, () {
+            _buildMenuItem('logOut'.tr, Icons.logout, () {
               Navigator.popUntil(context, ModalRoute.withName('/'));
             }),
-
-            // هنا يمكنك إضافة زر جديد
-            _buildMenuItem('Trainer', Icons.accessibility_sharp, () {
+            _buildMenuItem('trainer'.tr, Icons.accessibility_sharp, () {
               // طلب كلمة المرور
               _requestPassword(context, () {
                 // عند التحقق من صحة كلمة المرور، قم بفتح الصفحة
@@ -181,6 +177,7 @@ class SideMenu extends StatelessWidget {
                 );
               });
             }),
+            SizedBox(height: screenHeight * 0.05),
           ],
         ),
       ),

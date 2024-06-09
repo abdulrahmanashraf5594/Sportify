@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:untitled17/screens/vod.dart';
+import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+import 'package:untitled17/main.dart';
+import 'package:untitled17/payments.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../constants.dart';
 
 class PlaygroundDetailsPage extends StatelessWidget {
   final Map<String, dynamic> playgroundData;
@@ -11,20 +15,33 @@ class PlaygroundDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var themeProvider = Provider.of<ThemeProvider>(context);
+
+  
+    Color buttonColor = themeProvider.themeMode == ThemeMode.dark
+        ? Color.fromARGB(255, 41, 169, 92)
+        : Color.fromARGB(255, 115, 113, 113);
+    Color textColor = themeProvider.themeMode == ThemeMode.dark
+        ? Colors.grey[200]!
+        : Colors.black;
+
     if (playgroundData == null || playgroundData.isEmpty) {
       return Scaffold(
         appBar: AppBar(
-          title: Text('Error'),
+          title: Text('Error', style: TextStyle(color: textColor)),
+        backgroundColor: Color.fromARGB(255, 41, 169, 92),
         ),
         body: Center(
-          child: Text('No data available.'),
+          child: Text('No data available.', style: TextStyle(color: textColor)),
         ),
       );
     }
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Playground Details'),
+        backgroundColor: Color.fromARGB(255, 41, 169, 92),
+        title:
+            Text('playground_details'.tr, style: TextStyle(color: textColor)),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -46,11 +63,17 @@ class PlaygroundDetailsPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                    child: _buildDetail('Name:', playgroundData['name']),
+                    child: _buildDetail(
+                      context,
+                      'name:'.tr,
+                      playgroundData['name'],
+                      textColor,
+                    ),
                   ),
                   SizedBox(width: 16),
                   Expanded(
-                    child: _buildDetail('Sport Type:', playgroundData['type']),
+                    child: _buildDetail(context, 'sport_type'.tr,
+                        playgroundData['type'], textColor),
                   ),
                 ],
               ),
@@ -65,8 +88,10 @@ class PlaygroundDetailsPage extends StatelessWidget {
                     children: [
                       Expanded(
                         child: _buildDetail(
-                          'Description:',
+                          context,
+                          'description'.tr,
                           playgroundData['stadiumDetails'],
+                          textColor,
                         ),
                       ),
                     ],
@@ -81,13 +106,21 @@ class PlaygroundDetailsPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                    child:
-                    _buildDetail('Open Time:', playgroundData['openTime']),
+                    child: _buildDetail(
+                      context,
+                      'open_time'.tr,
+                      playgroundData['openTime'],
+                      textColor,
+                    ),
                   ),
                   SizedBox(width: 16),
                   Expanded(
                     child: _buildDetail(
-                        'Close Time:', playgroundData['closeTime']),
+                      context,
+                      'close_time'.tr,
+                      playgroundData['closeTime'],
+                      textColor,
+                    ),
                   ),
                 ],
               ),
@@ -98,11 +131,13 @@ class PlaygroundDetailsPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                    child: _buildDetail('Price:', playgroundData['price']),
+                    child: _buildDetail(context, 'price'.tr,
+                        playgroundData['price'], textColor),
                   ),
                   SizedBox(width: 16),
                   Expanded(
-                    child: _buildDetail('Lockers:', playgroundData['lockers']),
+                    child: _buildDetail(context, 'lockers'.tr,
+                        playgroundData['lockers'], textColor),
                   ),
                 ],
               ),
@@ -122,7 +157,7 @@ class PlaygroundDetailsPage extends StatelessWidget {
                           },
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all<Color>(
-                              Color.fromARGB(255, 41, 169, 92),
+                              buttonColor,
                             ),
                             minimumSize: MaterialStateProperty.all<Size>(
                                 Size(double.infinity, 55)),
@@ -132,12 +167,12 @@ class PlaygroundDetailsPage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          icon: Icon(Icons.location_on, color: Colors.white),
+                          icon: Icon(Icons.location_on, color: textColor),
                           label: Text(
-                            'View Location On Google Maps',
+                            'view_location_on_google_maps'.tr,
                             style: TextStyle(
                               fontSize: 18,
-                              color: Colors.white,
+                              color: textColor,
                             ),
                           ),
                         ),
@@ -151,15 +186,11 @@ class PlaygroundDetailsPage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => VodafonePlayground()),
-                  );
+                  _bookPlayground(context);
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(
-                    Color.fromARGB(255, 41, 169, 92),
+                    buttonColor,
                   ),
                   minimumSize: MaterialStateProperty.all<Size>(
                     Size(double.infinity, 55),
@@ -175,12 +206,12 @@ class PlaygroundDetailsPage extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.sports_soccer,
-                      color: Colors.white,
+                      color: textColor,
                     ),
                     SizedBox(width: 2),
                     Text(
-                      'Book Playground',
-                      style: TextStyle(fontSize: 18, color: Colors.white),
+                      'book_playground'.tr,
+                      style: TextStyle(fontSize: 18, color: textColor),
                     ),
                   ],
                 ),
@@ -193,16 +224,21 @@ class PlaygroundDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildDetail(String label, dynamic data) {
+  Widget _buildDetail(
+      BuildContext context, String label, dynamic data, Color textColor) {
     if (data == null) {
       return Container();
     }
+    var themeProvider = Provider.of<ThemeProvider>(context);
+    Color expandedColor = themeProvider.themeMode == ThemeMode.dark
+        ? const Color.fromARGB(255, 0, 0, 0)!
+        : const Color.fromARGB(255, 238, 238, 238);
 
     return Container(
       padding: EdgeInsets.all(15),
       margin: EdgeInsets.only(bottom: 15),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: expandedColor,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
@@ -217,46 +253,21 @@ class PlaygroundDetailsPage extends StatelessWidget {
         children: [
           Text(
             label,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                fontSize: 18, fontWeight: FontWeight.bold, color: textColor),
           ),
           SizedBox(height: 16),
           Text(
             data,
-            style: TextStyle(fontSize: 16),
+            style: TextStyle(fontSize: 16, color: textColor),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildLocationButton(String label, String location) {
-    return TextButton(
-      onPressed: () {
-        _launchGoogleMaps(location);
-      },
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-        padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-          EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-        ),
-        shape: MaterialStateProperty.all<OutlinedBorder>(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-        ),
-      ),
-      child: Text(
-        label,
-        style: TextStyle(
-          fontSize: 18,
-          color: Colors.white,
-        ),
-      ),
-    );
-  }
-
-  _launchGoogleMaps(String location) async {
-    final url = 'https://www.google.com/maps/search/?api=1&query=$location';
+  void _launchGoogleMaps(String location) async {
+    final url = location; // Using the full URL directly
     if (await canLaunch(url)) {
       await launch(url);
     } else {

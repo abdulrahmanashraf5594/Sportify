@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled17/swap.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -25,8 +26,9 @@ class _DisplayProductsPageState extends State<DisplayProductsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 41, 169, 92),
         title: Text(
-          'Swap sports tools',
+          'Swap_sports_tools'.tr,
           style: TextStyle(color: Colors.black),
         ),
       ),
@@ -105,7 +107,7 @@ class SearchBar extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30.0),
                     borderSide: BorderSide.none,
                   ),
-                  hintText: "Search",
+                  hintText: "search".tr,
                   hintStyle: TextStyle(color: Colors.grey),
                   prefixIcon: Icon(
                     Icons.search,
@@ -163,19 +165,19 @@ class ProductCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
-              'Name: ${product['name']}',
+              'name: ${product['name']}'.tr,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
           SizedBox(height: 5),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text('Description: ${product['description']}'),
+            child: Text('description: ${product['description']}'.tr),
           ),
           SizedBox(height: 5),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text('Location: ${product['address']}'),
+            child: Text('location: ${product['address']}'.tr),
           ),
           SizedBox(height: 10),
           ElevatedButton(
@@ -184,7 +186,7 @@ class ProductCard extends StatelessWidget {
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: Text('Contact Seller'),
+                    title: Text('Contact_Seller'.tr),
                     content: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -208,14 +210,15 @@ class ProductCard extends StatelessWidget {
                                 color: Colors.white,
                               ),
                               SizedBox(width: 5),
-                              Text('WhatsApp'),
+                              Text('whatsApp'.tr),
                             ],
                           ),
                         ),
                         SizedBox(height: 10),
                         ElevatedButton(
                           onPressed: () {
-                            launchPhoneCall(context, number: product['phone']);
+                            launchPhoneCall(context,
+                                number: product['phone_number'.tr]);
                           },
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all<Color>(
@@ -229,7 +232,7 @@ class ProductCard extends StatelessWidget {
                             children: [
                               Icon(Icons.phone),
                               SizedBox(width: 5),
-                              Text('Call'),
+                              Text('call'.tr),
                             ],
                           ),
                         ),
@@ -241,7 +244,7 @@ class ProductCard extends StatelessWidget {
                           Navigator.of(context).pop();
                         },
                         child: Text(
-                          'Cancel',
+                          'cancel'.tr,
                           style: TextStyle(color: Colors.black),
                         ),
                       ),
@@ -261,7 +264,7 @@ class ProductCard extends StatelessWidget {
               children: [
                 Icon(Icons.phone),
                 SizedBox(width: 5),
-                Text('Contact Seller'),
+                Text('Contact_Seller'.tr),
               ],
             ),
           ),

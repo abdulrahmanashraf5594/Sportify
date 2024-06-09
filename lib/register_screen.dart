@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:rive/rive.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:untitled17/login_screen.dart';
@@ -99,7 +100,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       }
 
       UserCredential userCredential =
-      await _auth.createUserWithEmailAndPassword(
+          await _auth.createUserWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
       );
@@ -205,9 +206,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       focusNode: emailFocusNode,
                       controller: emailController,
                       decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        hintText: "Email",
-                      ),
+                          border: InputBorder.none,
+                          hintText: "Email",
+                          hintStyle: TextStyle(color: Colors.black)),
                       style: Theme.of(context).textTheme.bodyMedium,
                       onChanged: (value) {
                         numLook?.change(value.length.toDouble());
@@ -228,9 +229,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       focusNode: passwordFocusNode,
                       controller: passwordController,
                       decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        hintText: "Password",
-                      ),
+                          border: InputBorder.none,
+                          hintText: "Password",
+                          hintStyle: TextStyle(color: Colors.black)),
                       obscureText: true,
                       style: Theme.of(context).textTheme.bodyMedium,
                       onChanged: (value) {},
@@ -250,9 +251,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       focusNode: confirmPasswordFocusNode,
                       controller: confirmPasswordController,
                       decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        hintText: "Confirm Password",
-                      ),
+                          border: InputBorder.none,
+                          hintText: "Confirm Password",
+                          hintStyle: TextStyle(color: Colors.black)),
                       obscureText: true,
                       style: Theme.of(context).textTheme.bodyMedium,
                       onChanged: (value) {},
@@ -288,7 +289,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             MaterialButton(
               minWidth: 250.0,
               height: 50,
-              color: Colors.black38,
+              color: Color.fromARGB(255, 41, 169, 92), // هنا تم تغيير اللون
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -297,12 +298,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
               },
               child: isLoading
                   ? CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-              )
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    )
                   : const Text(
-                "Register",
-                style: TextStyle(color: Colors.white),
-              ),
+                      "Register",
+                      style: TextStyle(color: Colors.white),
+                    ),
             ),
           ],
         ),

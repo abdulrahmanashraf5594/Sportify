@@ -2,7 +2,10 @@ import 'package:circular_menu/circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:untitled17/history.dart';
+import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+import 'package:untitled17/main.dart';
+import 'package:untitled17/screens/history.dart';
 import 'package:untitled17/screens/userevent.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
@@ -31,6 +34,14 @@ class _EventCardState extends State<EventCard> {
 
   @override
   Widget build(BuildContext context) {
+    var themeProvider = Provider.of<ThemeProvider>(context);
+
+    Color textColor = themeProvider.themeMode == ThemeMode.dark
+        ? Colors.grey[200]!
+        : Colors.black;
+    Color cardColor = themeProvider.themeMode == ThemeMode.dark
+        ? const Color.fromARGB(255, 0, 0, 0)!
+        : const Color.fromARGB(255, 238, 238, 238);
     List<String>? images = (widget.data['images'] as List<dynamic>?)
         ?.map((e) => e as String)
         .toList();
@@ -48,7 +59,7 @@ class _EventCardState extends State<EventCard> {
         padding: EdgeInsets.all(16),
         margin: EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: Colors.grey[200],
+          color: cardColor,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
@@ -83,22 +94,23 @@ class _EventCardState extends State<EventCard> {
             SizedBox(height: 12),
             Text(
               'Event Type: ${widget.data['eventType']}',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontSize: 18, fontWeight: FontWeight.bold, color: textColor),
             ),
             SizedBox(height: 8),
             Text(
-              'Distance: ${widget.data['distance']}',
-              style: TextStyle(fontSize: 16),
+              'Distance: ${widget.data['distance']}'.tr,
+              style: TextStyle(fontSize: 16, color: textColor),
             ),
             SizedBox(height: 8),
             Text(
-              'Fee: ${widget.data['fee']}',
-              style: TextStyle(fontSize: 16),
+              'Fee: ${widget.data['fee']}'.tr,
+              style: TextStyle(fontSize: 16, color: textColor),
             ),
             SizedBox(height: 8),
             Text(
-              'Insurance: ${widget.data['insurance']}',
-              style: TextStyle(fontSize: 16),
+              'Insurance: ${widget.data['insurance']}'.tr,
+              style: TextStyle(fontSize: 16, color: textColor),
             ),
             SizedBox(height: 12),
             Row(
@@ -121,7 +133,7 @@ class _EventCardState extends State<EventCard> {
                 SizedBox(width: 12),
                 Text(
                   'Subscribers: $subscribersCount',
-                  style: TextStyle(fontSize: 16),
+                  style: TextStyle(fontSize: 16, color: textColor),
                 ),
               ],
             ),
@@ -160,19 +172,19 @@ class _EventCardState extends State<EventCard> {
       builder: (BuildContext context) {
         String name = '';
         String age = '';
-        String gender = 'Male'; // Initial value for gender
+        String gender = 'male'.tr; // Initial value for gender
         String phone = '';
 
-        List<String> genderOptions = ['Male', 'Female'];
+        List<String> genderOptions = ['male'.tr, 'female'.tr];
 
         return AlertDialog(
-          title: Text('Subscribe to Event'),
+          title: Text('subscribe_to_event'.tr),
           content: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                _buildTextField('Name', (value) => name = value),
-                _buildTextField('Age', (value) => age = value),
+                _buildTextField(context, 'name'.tr, (value) => name = value),
+                _buildTextField(context, 'age'.tr, (value) => age = value),
                 DropdownButton(
                   hint: Text('Select Gender'),
                   value: gender,
@@ -186,7 +198,8 @@ class _EventCardState extends State<EventCard> {
                     );
                   }).toList(),
                 ),
-                _buildTextField('Phone', (value) => phone = value),
+                _buildTextField(
+                    context, 'phone_number'.tr, (value) => phone = value),
               ],
             ),
           ),
@@ -196,7 +209,7 @@ class _EventCardState extends State<EventCard> {
                 Navigator.of(context).pop();
               },
               child: Text(
-                'Cancel',
+                'cancel'.tr,
                 style: TextStyle(
                   color: Color.fromARGB(255, 41, 169, 92),
                 ),
@@ -263,11 +276,11 @@ class _EventCardState extends State<EventCard> {
                 } else {
                   // Save subscriber data to a new collection for event subscriptions
                   Map<String, dynamic> subscriberData = {
-                    'name': name,
-                    'age': age,
-                    'gender': gender, // Use the selected gender value here
-                    'phone': phone,
-                    'userId': userId,
+                    'name'.tr: name,
+                    'age'.tr: age,
+                    'gender'.tr: gender, // Use the selected gender value here
+                    'phone'.tr: phone,
+                    'userId'.tr: userId,
                   };
 
                   // Use event ID and user ID as a unique identifier for the subscription
@@ -276,9 +289,7 @@ class _EventCardState extends State<EventCard> {
                           'event_subscribers_${eventData['eventId']}');
                   eventSubscribersCollection.add(subscriberData).then((_) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                          content:
-                              Text('Subscribed to the event successfully!')),
+                      SnackBar(content: Text('successfully')),
                     );
                     Navigator.of(context).pop(); // Close dialog
 
@@ -301,7 +312,7 @@ class _EventCardState extends State<EventCard> {
                 }
               },
               child: Text(
-                'Subscribe',
+                'subscribe'.tr,
                 style: TextStyle(
                   color: Color.fromARGB(255, 41, 169, 92),
                 ),
@@ -313,12 +324,13 @@ class _EventCardState extends State<EventCard> {
     );
   }
 
-  Widget _buildTextField(String label, Function(String) onChanged) {
+  Widget _buildTextField(
+      BuildContext context, String label, Function(String) onChanged) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8.0),
       child: TextField(
         onChanged: onChanged,
-        decoration: InputDecoration(labelText: label),
+        decoration: InputDecoration(labelText: label.tr),
       ),
     );
   }
@@ -343,7 +355,8 @@ class EventDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Event Details'),
+        backgroundColor: Color.fromARGB(255, 41, 169, 92),
+        title: Text('event_details'.tr),
       ),
       body: CustomScrollView(
         slivers: [
@@ -387,27 +400,31 @@ class EventDetailsScreen extends StatelessWidget {
                       ),
                     ),
                   SizedBox(height: 20),
-                  _buildInfoCard(
-                      title: 'Event Name', value: '${event['eventName']}'),
-                  _buildInfoCard(title: 'Status', value: '${event['status']}'),
-                  _buildInfoCard(
-                      title: 'Age Range',
+                  _buildInfoCard(context,
+                      title: 'event_name'.tr, value: '${event['eventName']}'),
+                  _buildInfoCard(context,
+                      title: 'status'.tr, value: '${event['status']}'),
+                  _buildInfoCard(context,
+                      title: 'age_range'.tr,
                       value: '${event['ageRangeFrom']}-${event['ageRangeTo']}'),
-                  _buildInfoCard(
-                      title: 'Description', value: '${event['description']}'),
+                  _buildInfoCard(context,
+                      title: 'description'.tr,
+                      value: '${event['description']}'),
                   if (event['distance'] != null)
-                    _buildInfoCard(
-                        title: 'Distance', value: '${event['distance']}'),
+                    _buildInfoCard(context,
+                        title: 'distance'.tr, value: '${event['distance']}'),
                   if (event['date'] != null)
-                    _buildInfoCard(title: 'Date', value: '${event['date']}'),
-                  _buildInfoCard(
-                      title: 'Event Type', value: '${event['eventType']}'),
-                  _buildInfoCard(title: 'Fee', value: '${event['fee']}'),
+                    _buildInfoCard(context,
+                        title: 'date'.tr, value: '${event['date']}'),
+                  _buildInfoCard(context,
+                      title: 'event_type'.tr, value: '${event['eventType']}'),
+                  _buildInfoCard(context,
+                      title: 'fee'.tr, value: '${event['fee']}'),
                   if (event['haveBike'] != null)
-                    _buildInfoCard(
-                        title: 'Have Bike', value: '${event['haveBike']}'),
-                  _buildInfoCard(
-                      title: 'Insurance', value: '${event['insurance']}'),
+                    _buildInfoCard(context,
+                        title: 'have_bike'.tr, value: '${event['haveBike']}'),
+                  _buildInfoCard(context,
+                      title: 'insurance'.tr, value: '${event['insurance']}'),
                   SizedBox(height: 10),
                   // Add button to open Google Maps
                   ElevatedButton(
@@ -418,7 +435,6 @@ class EventDetailsScreen extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       backgroundColor:
                           Color.fromARGB(255, 41, 169, 92), // Background color
-
                       shape: RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.circular(15), // Rounded corners
@@ -427,7 +443,7 @@ class EventDetailsScreen extends StatelessWidget {
                           vertical: 16, horizontal: 24), // Button padding
                     ),
                     child: Text(
-                      'View Location on Google Maps',
+                      'view_location_on_google_maps'.tr,
                       style: TextStyle(
                           fontSize: 16, // Text size
                           fontWeight: FontWeight.bold,
@@ -445,34 +461,31 @@ class EventDetailsScreen extends StatelessWidget {
   }
 
   // Function to build info card
-  Widget _buildInfoCard({required String title, required String value}) {
-    return Container(
-      padding: EdgeInsets.all(15),
-      margin: EdgeInsets.only(bottom: 15),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            offset: Offset(0, 2),
-            blurRadius: 6,
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 5),
-          Text(
-            value,
-            style: TextStyle(fontSize: 16),
-          ),
-        ],
+  Widget _buildInfoCard(BuildContext context,
+      {required String title, required String value}) {
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      margin: EdgeInsets.symmetric(vertical: 8),
+      elevation: 3,
+      child: Padding(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title.tr,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              value.tr,
+              style: TextStyle(fontSize: 16),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -486,14 +499,12 @@ class DetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GestureDetector(
-        onTap: () {
-          Navigator.pop(context);
-        },
-        child: Center(
-          child: Hero(
-            tag: imageUrl,
-            child: Image.network(imageUrl),
+      body: Center(
+        child: Hero(
+          tag: imageUrl,
+          child: Image.network(
+            imageUrl,
+            fit: BoxFit.cover,
           ),
         ),
       ),
@@ -506,7 +517,8 @@ class EventScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Event'),
+        backgroundColor: Color.fromARGB(255, 41, 169, 92),
+        title: Text('events'.tr),
       ),
       body: LiquidPullToRefresh(
         // هنا نقوم بتحديث البيانات عند سحب الشاشة لأسفل
@@ -537,11 +549,11 @@ class EventScreen extends StatelessWidget {
               Positioned(
                 child: CircularMenu(
                   alignment: Alignment.bottomRight,
-                  toggleButtonColor: Colors.blue,
+                  toggleButtonColor: Color.fromARGB(255, 41, 169, 92),
                   items: [
                     CircularMenuItem(
                       icon: Icons.add_outlined,
-                      color: Colors.green,
+                      color: Colors.blue,
                       onTap: () {
                         Navigator.push(
                           context,
@@ -633,7 +645,7 @@ class SearchBar extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30.0),
                     borderSide: BorderSide.none,
                   ),
-                  hintText: "Search",
+                  hintText: 'search'.tr,
                   hintStyle: TextStyle(color: Colors.grey),
                   prefixIcon: Icon(
                     Icons.search,

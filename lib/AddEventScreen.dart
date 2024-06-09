@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 import 'package:untitled17/events.dart';
+import 'package:untitled17/main.dart';
 
 class AddEventScreen extends StatefulWidget {
   @override
@@ -133,9 +136,21 @@ class _AddEventScreenState extends State<AddEventScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var themeProvider = Provider.of<ThemeProvider>(context);
+
+    Color textColor = themeProvider.themeMode == ThemeMode.dark
+        ? Colors.grey[200]!
+        : Colors.black;
+    Color cardColor = themeProvider.themeMode == ThemeMode.dark
+        ? const Color.fromARGB(255, 0, 0, 0)!
+        : const Color.fromARGB(255, 238, 238, 238);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Event'),
+        backgroundColor: Color.fromARGB(255, 41, 169, 92),
+        title: Text(
+          'Add Event'.tr,
+          style: TextStyle(color: textColor),
+        ),
       ),
       body: _isLoading
           ? Center(
@@ -155,7 +170,9 @@ class _AddEventScreenState extends State<AddEventScreen> {
                           height: 200,
                           color: Colors.grey[300],
                           child: _selectedImages.isEmpty
-                              ? Center(child: Text('Add Image'))
+                              ? Center(
+                                  child: Text('Add Image'.tr,
+                                      style: TextStyle(color: Colors.black)))
                               : ListView.builder(
                                   scrollDirection: Axis.horizontal,
                                   itemCount: _selectedImages.length,
@@ -176,7 +193,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                       SizedBox(height: 20),
                       TextFormField(
                         decoration: InputDecoration(
-                          labelText: 'Event Location',
+                          labelText: 'Event Location'.tr,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(
                                 10.0), // تطبيق حروف دائرية
@@ -184,7 +201,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                 BorderSide(color: Colors.grey), // لون الحدود
                           ),
                           filled: true, // تفعيل اللون الخلفي للحقل
-                          fillColor: Colors.grey[200], // لون خلفية الحقل
+                          fillColor: cardColor, // لون خلفية الحقل
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide(
@@ -227,7 +244,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                 BorderSide(color: Colors.grey), // لون الحدود
                           ),
                           filled: true, // تفعيل اللون الخلفي للحقل
-                          fillColor: Colors.grey[200], // لون خلفية الحقل
+                          fillColor: cardColor, // لون خلفية الحقل
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide(
@@ -272,7 +289,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                 BorderSide(color: Colors.grey), // لون الحدود
                           ),
                           filled: true, // تفعيل اللون الخلفي للحقل
-                          fillColor: Colors.grey[200], // لون خلفية الحقل
+                          fillColor: cardColor, // لون خلفية الحقل
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide(
@@ -325,7 +342,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                   BorderSide(color: Colors.grey), // لون الحدود
                             ),
                             filled: true, // تفعيل اللون الخلفي للحقل
-                            fillColor: Colors.grey[200], // لون خلفية الحقل
+                            fillColor: cardColor, // لون خلفية الحقل
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
                               borderSide: BorderSide(
@@ -374,8 +391,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                         color: Colors.grey), // لون الحدود
                                   ),
                                   filled: true, // تفعيل اللون الخلفي للحقل
-                                  fillColor:
-                                      Colors.grey[200], // لون خلفية الحقل
+                                  fillColor: cardColor, // لون خلفية الحقل
+                                  // لون خلفية الحقل
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                     borderSide: BorderSide(
@@ -415,8 +432,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                         color: Colors.grey), // لون الحدود
                                   ),
                                   filled: true, // تفعيل اللون الخلفي للحقل
-                                  fillColor:
-                                      Colors.grey[200], // لون خلفية الحقل
+                                  fillColor: cardColor, // لون خلفية الحقل
+                                  // لون خلفية الحقل
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                     borderSide: BorderSide(
@@ -460,8 +477,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                         color: Colors.grey), // لون الحدود
                                   ),
                                   filled: true, // تفعيل اللون الخلفي للحقل
-                                  fillColor:
-                                      Colors.grey[200], // لون خلفية الحقل
+                                  fillColor: cardColor, // لون خلفية الحقل
+                                  // لون خلفية الحقل
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                     borderSide: BorderSide(
@@ -502,7 +519,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                             Expanded(
                               child: DropdownButtonFormField<bool>(
                                 decoration: InputDecoration(
-                                  labelText: 'Insurance',
+                                  labelText: 'Insurance'.tr,
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(
                                         10.0), // تطبيق حروف دائرية
@@ -510,8 +527,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                         color: Colors.grey), // لون الحدود
                                   ),
                                   filled: true, // تفعيل اللون الخلفي للحقل
-                                  fillColor:
-                                      Colors.grey[200], // لون خلفية الحقل
+                                  fillColor: cardColor, // لون خلفية الحقل
+                                  // لون خلفية الحقل
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                     borderSide: BorderSide(
@@ -562,7 +579,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                     color: Colors.grey), // لون الحدود
                               ),
                               filled: true, // تفعيل اللون الخلفي للحقل
-                              fillColor: Colors.grey[200], // لون خلفية الحقل
+                              fillColor: cardColor, // لون خلفية الحقل
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                                 borderSide: BorderSide(
@@ -615,8 +632,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                         color: Colors.grey), // لون الحدود
                                   ),
                                   filled: true, // تفعيل اللون الخلفي للحقل
-                                  fillColor:
-                                      Colors.grey[200], // لون خلفية الحقل
+                                  fillColor: cardColor, // لون خلفية الحقل
+                                  // لون خلفية الحقل
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                     borderSide: BorderSide(
@@ -658,7 +675,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                 BorderSide(color: Colors.grey), // لون الحدود
                           ),
                           filled: true, // تفعيل اللون الخلفي للحقل
-                          fillColor: Colors.grey[200], // لون خلفية الحقل
+                          fillColor: cardColor, // لون خلفية الحقل
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide(
@@ -702,7 +719,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                 BorderSide(color: Colors.grey), // لون الحدود
                           ),
                           filled: true, // تفعيل اللون الخلفي للحقل
-                          fillColor: Colors.grey[200], // لون خلفية الحقل
+                          fillColor: cardColor, // لون خلفية الحقل
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide(
@@ -745,7 +762,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                 BorderSide(color: Colors.grey), // لون الحدود
                           ),
                           filled: true, // تفعيل اللون الخلفي للحقل
-                          fillColor: Colors.grey[200], // لون خلفية الحقل
+                          fillColor: cardColor, // لون خلفية الحقل
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide(

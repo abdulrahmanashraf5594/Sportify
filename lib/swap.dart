@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:untitled17/pro.dart';
 
@@ -159,9 +160,9 @@ class _AddProductPageState extends State<AddProductPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add sports tool'),
+        backgroundColor: Color.fromARGB(255, 41, 169, 92),
+        title: Text('Add_sports_tool'.tr),
       ),
-      backgroundColor: Colors.white,
       body: Stack(
         children: [
           Padding(
@@ -200,7 +201,7 @@ class _AddProductPageState extends State<AddProductPage> {
                         SizedBox(
                             width: 8), // Add space between the icon and text
                         Text(
-                          'Pick Image',
+                          'Pick_Image'.tr,
                           style: TextStyle(
                               fontSize: 17,
                               color:
@@ -213,7 +214,7 @@ class _AddProductPageState extends State<AddProductPage> {
                   TextField(
                     controller: _nameController,
                     decoration: InputDecoration(
-                      labelText: 'Name',
+                      labelText: 'name'.tr,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20.0),
                       ),
@@ -224,7 +225,7 @@ class _AddProductPageState extends State<AddProductPage> {
                   TextField(
                     controller: _descriptionController,
                     decoration: InputDecoration(
-                      labelText: 'Description',
+                      labelText: 'Description'.tr,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20.0),
                       ),
@@ -236,7 +237,7 @@ class _AddProductPageState extends State<AddProductPage> {
                   TextField(
                     controller: _addressController,
                     decoration: InputDecoration(
-                      labelText: 'Address',
+                      labelText: 'address'.tr,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20.0),
                       ),
@@ -253,7 +254,7 @@ class _AddProductPageState extends State<AddProductPage> {
                           11), // تحديد الحد الأقصى للأحرف
                     ],
                     decoration: InputDecoration(
-                      labelText: 'Phone',
+                      labelText: 'phone_number'.tr,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20.0),
                       ),
@@ -274,7 +275,7 @@ class _AddProductPageState extends State<AddProductPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Add Tool',
+                          'Add_Tool'.tr,
                           style: TextStyle(
                               fontSize: 17,
                               color:

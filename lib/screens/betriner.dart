@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
@@ -25,7 +26,7 @@ class _TrainerResPageState extends State<TrainerResPage> {
   TextEditingController _instagramController = TextEditingController();
   TextEditingController _youtubeController = TextEditingController();
   TextEditingController _linkedinController = TextEditingController();
-  String _selectedSport = 'Football'; // Default sport
+  String _selectedSport = 'football'.tr; // Default sport
 
   File? _profileImage;
   File? _idImage;
@@ -210,7 +211,8 @@ class _TrainerResPageState extends State<TrainerResPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Trainer Resources'),
+        backgroundColor: Color.fromARGB(255, 41, 169, 92),
+        title: Text('Trainer_Resources'.tr),
       ),
       body: _isLoading // شاشة التحميل
           ? Center(
@@ -224,13 +226,13 @@ class _TrainerResPageState extends State<TrainerResPage> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      'Upload Profile Image',
+                      'Upload_Profile_Image'.tr,
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 10),
                     _buildUploadButton(
-                      'Pick Profile Image',
+                      'Pick_Profile_Image'.tr,
                       _pickProfileImage,
                       Icons.image,
                     ),
@@ -238,7 +240,7 @@ class _TrainerResPageState extends State<TrainerResPage> {
                     SizedBox(height: 20),
                     // البيانات الشخصية
                     Text(
-                      'Personal Information',
+                      'Personal_Information'.tr,
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
@@ -246,7 +248,7 @@ class _TrainerResPageState extends State<TrainerResPage> {
                     TextField(
                       controller: _nameController,
                       decoration: InputDecoration(
-                        labelText: 'Full Name',
+                        labelText: 'Full_Name'.tr,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
                           borderSide: BorderSide(color: Colors.grey),
@@ -275,7 +277,7 @@ class _TrainerResPageState extends State<TrainerResPage> {
                       controller: _ageController,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
-                        labelText: 'Age',
+                        labelText: 'age'.tr,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
                           borderSide: BorderSide(color: Colors.grey),
@@ -304,7 +306,7 @@ class _TrainerResPageState extends State<TrainerResPage> {
                       controller: _numberController,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
-                        labelText: 'Number',
+                        labelText: 'phone_number'.tr,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
                           borderSide: BorderSide(color: Colors.grey),
@@ -332,7 +334,7 @@ class _TrainerResPageState extends State<TrainerResPage> {
                     TextField(
                       controller: _addressController,
                       decoration: InputDecoration(
-                        labelText: 'Address',
+                        labelText: 'address'.tr,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
                           borderSide: BorderSide(color: Colors.grey),
@@ -360,7 +362,7 @@ class _TrainerResPageState extends State<TrainerResPage> {
                     SizedBox(height: 20),
                     // الخبرة
                     Text(
-                      'Experience',
+                      'experience'.tr,
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
@@ -369,7 +371,7 @@ class _TrainerResPageState extends State<TrainerResPage> {
                       controller: _experienceController,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
-                        labelText: 'Experience (years)',
+                        labelText: 'Experience_(years)'.tr,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
                           borderSide: BorderSide(color: Colors.grey),
@@ -397,7 +399,7 @@ class _TrainerResPageState extends State<TrainerResPage> {
                     SizedBox(height: 20),
                     // وسائل التواصل الاجتماعي
                     Text(
-                      'Social Media',
+                      'Social_Media'.tr,
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
@@ -405,7 +407,7 @@ class _TrainerResPageState extends State<TrainerResPage> {
                     TextField(
                       controller: _facebookController,
                       decoration: InputDecoration(
-                        labelText: 'Facebook',
+                        labelText: 'facebook'.tr,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
                           borderSide: BorderSide(color: Colors.grey),
@@ -433,7 +435,7 @@ class _TrainerResPageState extends State<TrainerResPage> {
                     TextField(
                       controller: _twitterController,
                       decoration: InputDecoration(
-                        labelText: 'Twitter',
+                        labelText: 'twitter'.tr,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
                           borderSide: BorderSide(color: Colors.grey),
@@ -461,7 +463,7 @@ class _TrainerResPageState extends State<TrainerResPage> {
                     TextField(
                       controller: _instagramController,
                       decoration: InputDecoration(
-                        labelText: 'Instagram',
+                        labelText: 'instagram'.tr,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
                           borderSide: BorderSide(color: Colors.grey),
@@ -489,7 +491,7 @@ class _TrainerResPageState extends State<TrainerResPage> {
                     TextField(
                       controller: _youtubeController,
                       decoration: InputDecoration(
-                        labelText: 'Youtube',
+                        labelText: 'youtube'.tr,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
                           borderSide: BorderSide(color: Colors.grey),
@@ -517,7 +519,7 @@ class _TrainerResPageState extends State<TrainerResPage> {
                     TextField(
                       controller: _linkedinController,
                       decoration: InputDecoration(
-                        labelText: 'LinkedIn',
+                        labelText: 'linkedIn'.tr,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
                           borderSide: BorderSide(color: Colors.grey),
@@ -545,7 +547,7 @@ class _TrainerResPageState extends State<TrainerResPage> {
                     SizedBox(height: 20),
                     // الرياضة
                     Text(
-                      'Sport',
+                      'sport'.tr,
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
@@ -553,7 +555,7 @@ class _TrainerResPageState extends State<TrainerResPage> {
                     DropdownButtonFormField<String>(
                       value: _selectedSport,
                       decoration: InputDecoration(
-                        labelText: 'Sport',
+                        labelText: 'sport'.tr,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
                           borderSide: BorderSide(color: Colors.grey),
@@ -577,11 +579,11 @@ class _TrainerResPageState extends State<TrainerResPage> {
                         errorStyle: TextStyle(color: Colors.red),
                       ),
                       items: [
-                        'Football',
-                        'Swimming',
-                        'Badminton',
-                        'Gym',
-                        'Combat Games'
+                        'football'.tr,
+                        'swimming'.tr,
+                        'badminton'.tr,
+                        'gym'.tr,
+                        'Combat_Games'.tr
                       ].map((sport) {
                         return DropdownMenuItem<String>(
                           value: sport,
@@ -598,7 +600,7 @@ class _TrainerResPageState extends State<TrainerResPage> {
                     SizedBox(height: 20),
                     // صورة الهوية
                     Text(
-                      'Upload ID Image',
+                      'Upload_ID_Image'.tr,
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
@@ -615,7 +617,7 @@ class _TrainerResPageState extends State<TrainerResPage> {
                       children: [
                         Expanded(
                           child: _buildUploadButton(
-                            'Choose Image',
+                            'Choose_Image'.tr,
                             () => _pickImage(
                               ImageSource.gallery,
                             ),
@@ -625,7 +627,7 @@ class _TrainerResPageState extends State<TrainerResPage> {
                         SizedBox(width: 10),
                         Expanded(
                           child: _buildUploadButton(
-                            'Take Photo',
+                            'Take_Photo'.tr,
                             () => _pickImage(ImageSource.camera),
                             Icons.camera_alt,
                           ),
@@ -635,13 +637,13 @@ class _TrainerResPageState extends State<TrainerResPage> {
                     SizedBox(height: 20),
                     // صور الشهادات
                     Text(
-                      'Upload Certificates Images',
+                      'Upload_Certificates_Images'.tr,
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 10),
                     _buildUploadButton(
-                      'Pick Certificates Images',
+                      'Pick_Certificates_Images'.tr,
                       _pickCertificateImages,
                       Icons.image,
                     ),
@@ -652,14 +654,14 @@ class _TrainerResPageState extends State<TrainerResPage> {
                     // ملف PDF
                     _pdfFile != null ? Text(_pdfFile!.path) : Container(),
                     _buildUploadButton(
-                      'Choose PDF',
+                      'Choose_PDF'.tr,
                       _pickPdf,
                       Icons.picture_as_pdf,
                     ),
                     SizedBox(height: 20),
                     // زر الإرسال
                     _buildUploadButton(
-                      'Submit',
+                      'submit'.tr,
                       _submitData,
                       Icons.send,
                     ),
@@ -722,6 +724,7 @@ class TrainerHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 41, 169, 92),
         title: Text('Trainer Home Page'),
       ),
       body: StreamBuilder<QuerySnapshot>(
@@ -729,7 +732,7 @@ class TrainerHomePage extends StatelessWidget {
             FirebaseFirestore.instance.collection('coach_bookings').snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
-            return Text('Something went wrong');
+            return Text('Something_went_wrong'.tr);
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -779,7 +782,7 @@ class RequestCard extends StatelessWidget {
 
             // Displaying the date in an organized manner
             Text(
-              'Date: $day-$month-$year',
+              'date: $day-$month-$year',
               style: TextStyle(
                 fontSize: 16,
               ),
@@ -813,7 +816,7 @@ class RequestCard extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
                   ),
-                  child: Text('Accept'),
+                  child: Text('accept'.tr),
                 ),
                 ElevatedButton(
                   onPressed: () {
@@ -822,7 +825,7 @@ class RequestCard extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red,
                   ),
-                  child: Text('Reject'),
+                  child: Text('reject'.tr),
                 ),
               ],
             ),
@@ -860,7 +863,7 @@ void _acceptRequest(BuildContext context, String userId, String profileId) {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('Booking Details'),
+              title: Text('Booking_Details'.tr),
               content: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
@@ -878,13 +881,13 @@ void _acceptRequest(BuildContext context, String userId, String profileId) {
                         .delete();
                     Navigator.of(context).pop();
                   },
-                  child: Text('Accept'),
+                  child: Text('accept'.tr),
                 ),
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text('Cancel'),
+                  child: Text('cancel'.tr),
                 ),
               ],
             );
@@ -906,13 +909,13 @@ void _rejectRequest(BuildContext context, String userId) {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Request Rejected'),
-          content: Text('The booking request has been rejected.'),
+          content: Text('The_booking_request_has_been_rejected.'.tr),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('OK'),
+              child: Text('oK'.tr),
             ),
           ],
         );
