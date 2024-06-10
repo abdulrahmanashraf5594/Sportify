@@ -103,6 +103,8 @@ const Map<String, String> en = {
   'Please_enter_phone_number': 'Please enter phone number',
   'Please_enter_event_location': 'Please enter event location',
   'Event_Location': 'Event Location',
+  'show location in maps': 'Show Location In Maps',
+
   'Cycling_Event': 'Cycling Event',
   'Running_Event': 'Running Event',
   'Others': 'Others',

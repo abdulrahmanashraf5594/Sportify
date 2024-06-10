@@ -165,19 +165,19 @@ class ProductCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
-              'name: ${product['name']}'.tr,
+              'name'.tr + ' : ${product['name']}'.tr,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
           SizedBox(height: 5),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text('description: ${product['description']}'.tr),
+            child: Text('description'.tr + ' ${product['description']}'.tr),
           ),
           SizedBox(height: 5),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text('location: ${product['address']}'.tr),
+            child: Text('location'.tr + ' : ${product['address']}'.tr),
           ),
           SizedBox(height: 10),
           ElevatedButton(

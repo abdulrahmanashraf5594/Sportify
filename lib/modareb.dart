@@ -34,9 +34,7 @@ class _DisplayTrainersPageState extends State<DisplayTrainersPage> {
   @override
   Widget build(BuildContext context) {
     var themeProvider = Provider.of<ThemeProvider>(context);
-    
-    
-    
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 41, 169, 92),
@@ -204,29 +202,30 @@ class TrainerCard extends StatelessWidget {
                 ),
               SizedBox(height: 10),
               Text(
-                'name: ${trainer['name']}'.tr,
+                'name:'.tr + '  ${trainer['name']}'.tr,
                 style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: textColor),
               ),
               Text(
-                'experience: ${trainer['experience']} years'.tr,
+                'experience'.tr + ' :${trainer['experience']} ' + 'years'.tr,
                 style: TextStyle(fontSize: 18, color: textColor),
               ),
               Text(
-                'age: ${trainer['age']}'.tr,
+                'age:'.tr + ' ${trainer['age']}'.tr,
                 style: TextStyle(fontSize: 18, color: textColor),
               ),
               Text(
-                'sport: ${trainer['sport']}'.tr,
+                'sport:'.tr + ' ${trainer['sport']}'.tr,
                 style: TextStyle(fontSize: 18, color: textColor),
               ),
               SizedBox(height: 10),
               Row(
                 children: [
                   if (trainer['linkedin'] != null) ...[
-                    Spacer(),
+                    Spacer(), // Spacer لإضافة مسافة بين الصور
+
                     GestureDetector(
                       onTap: () {
                         launchURL(trainer['linkedin']);
@@ -237,7 +236,7 @@ class TrainerCard extends StatelessWidget {
                         height: 32,
                       ),
                     ),
-                    Spacer(),
+                    Spacer(), // Spacer لإضافة مسافة بين الصور
                   ],
                   if (trainer['youtube'] != null) ...[
                     GestureDetector(
@@ -250,7 +249,7 @@ class TrainerCard extends StatelessWidget {
                         height: 32,
                       ),
                     ),
-                    Spacer(),
+                    Spacer(), // Spacer لإضافة مسافة بين الصور
                   ],
                   if (trainer['instagram'] != null) ...[
                     GestureDetector(
@@ -263,7 +262,7 @@ class TrainerCard extends StatelessWidget {
                         height: 32,
                       ),
                     ),
-                    Spacer(),
+                    Spacer(), // Spacer لإضافة مسافة بين الصور
                   ],
                   if (trainer['twitter'] != null) ...[
                     GestureDetector(
@@ -276,7 +275,7 @@ class TrainerCard extends StatelessWidget {
                         height: 32,
                       ),
                     ),
-                    Spacer(),
+                    Spacer(), // Spacer لإضافة مسافة بين الصور
                   ],
                   if (trainer['facebook'] != null) ...[
                     GestureDetector(
@@ -289,7 +288,7 @@ class TrainerCard extends StatelessWidget {
                         height: 32,
                       ),
                     ),
-                    Spacer(),
+                    Spacer(), // Spacer لإضافة مسافة بين الصور
                   ],
                 ],
               ),
@@ -439,7 +438,7 @@ class TrainerDetailsScreen extends StatelessWidget {
                 context, 'name:'.tr, '${trainer['name']}'.tr, textColor),
             SizedBox(height: 8),
             _buildInfoItem(context, 'experience:'.tr,
-                '${trainer['experience']} years', textColor),
+                '${trainer['experience']} ' + 'years'.tr, textColor),
             SizedBox(height: 8),
             _buildInfoItem(
                 context, 'age:'.tr, '${trainer['age']}'.tr, textColor),

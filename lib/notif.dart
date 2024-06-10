@@ -193,14 +193,14 @@ class _NotificationsPageState extends State<NotificationsPage> {
                       duration: Duration(seconds: 1),
                       curve: Curves.fastLinearToSlowEaseIn,
                       width: index == currentIndex
-                          ? displayWidth * .32
-                          : displayWidth * .18,
+                          ? displayWidth * .36
+                          : displayWidth * .19,
                       alignment: Alignment.center,
                       child: AnimatedContainer(
                         duration: Duration(seconds: 1),
                         curve: Curves.fastLinearToSlowEaseIn,
                         height: index == currentIndex ? displayWidth * .12 : 0,
-                        width: index == currentIndex ? displayWidth * .32 : 0,
+                        width: index == currentIndex ? displayWidth * .50 : 0,
                         decoration: BoxDecoration(
                             color: index == currentIndex
                                 ? Color.fromARGB(255, 134, 140, 143)
@@ -250,7 +250,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                 duration: Duration(seconds: 1),
                                 curve: Curves.fastLinearToSlowEaseIn,
                                 width: index == currentIndex
-                                    ? displayWidth * .03
+                                    ? displayWidth * .02
                                     : 20,
                               ),
                               index == currentIndex

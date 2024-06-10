@@ -5,8 +5,8 @@ const Map<String, String> ar = {
   'swapTools': 'تبديل الادوات',
   'interest': 'ما هي اهتماماتك؟',
   'home': 'الصفحه الرئيسية',
-    'history': 'أرشيف',
-    'notification': 'الاشعارات',
+  'history': 'أرشيف',
+  'notification': 'الاشعارات',
   ////////
   'settings': 'الإعدادات',
   'beATrainer': 'اضافه مدرب',
@@ -79,12 +79,21 @@ const Map<String, String> ar = {
 
   /////
   'event_type': 'نوع الحدث:',
+  'Event Type': 'نوع الحدث:',
+  'Event Subscribers': 'الاشتراكات في الحدث:',
+  'event_subscribers_null': 'لا يوجداشتراكات في الحدث:',
   'distance': 'المسافة:',
+  'Distance': 'المسافة:',
   'fee': 'الرسوم:',
+  'Fee': 'الرسوم:',
   'insurance': 'التأمين:',
+  'Insurance': 'التأمين:',
   'subscribe': 'أشتراك',
+  'Subscribe': 'أشتراك',
   'subscribed': 'مشترك:',
+  'Subscribed': 'مشترك:',
   'subscribers': 'المشتركين:',
+  'Subscribers': 'المشتركين:',
   'event_name': 'اسم الحدث:',
   'status': 'الحالة:',
   'age_range': 'مدي الفئة العمريه:',
@@ -104,6 +113,8 @@ const Map<String, String> ar = {
   'Please_enter_phone_number': 'من فضلك قم بإدخال رقم الهاتف',
   'Please_enter_event_location': 'من فضلك قم بإدخال موقع الحدث',
   'Event_Location': 'موقع الحدث',
+  'show location in maps': 'الموقع على الخريطة',
+
   'Cycling_Event': 'حدث ركوب الدراجات',
   'Running_Event': 'حدث ركض',
   'Others': 'فعاليات اخري',
@@ -175,8 +186,11 @@ const Map<String, String> ar = {
   'Booking_Details': 'تفاصيل الحجز',
 
   /////
- 'Visit_the_events_page_now_to_see_what_is_new': 'قم بالذهاب إلى صفحة الفعاليات الآن لتتفقد كل جديد',
- 'New_events_have_been_added_with_a_name:': 'تم إضافه فعاليات جديدة بأسم:',
-'There_are_no_new_events...' : 'لا توجد فعاليات حالياً',
-'event_type:': 'نوع الحدث:',
+  'Visit_the_events_page_now_to_see_what_is_new':
+      'قم بالذهاب إلى صفحة الفعاليات الآن لتتفقد كل جديد',
+  'New_events_have_been_added_with_a_name:': 'تم إضافه فعاليات جديدة بأسم:',
+  'There_are_no_new_events...': 'لا توجد فعاليات حالياً',
+  'event_type:': 'نوع الحدث:',
+
+/////
 };

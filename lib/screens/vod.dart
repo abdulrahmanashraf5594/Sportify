@@ -61,8 +61,7 @@ class _VodafonePlaygroundPageState extends State<VodafonePlaygroundPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(        backgroundColor: Color.fromARGB(255, 41, 169, 92),
-
+      appBar: AppBar(
         title: const Text('Vodafone Playground'),
       ),
       body: Stack(
@@ -471,9 +470,9 @@ class AuthService {
   // Send booking details and QR code to the user's email
   Future<void> sendBookingDetailsToUser(String email, String bookingDetails, String qrCodeImage) async {
     try {
-      // Use a package like `mailer` or any other email sending service.
+      // Use a package like mailer or any other email sending service.
       // This is a placeholder for the actual email sending code.
-      // For example, using `mailer` package:
+      // For example, using mailer package:
       //
       // final smtpServer = gmail(username, password);
       // final message = Message()
