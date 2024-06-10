@@ -209,7 +209,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           border: InputBorder.none,
                           hintText: "Email",
                           hintStyle: TextStyle(color: Colors.black)),
-                      style: Theme.of(context).textTheme.bodyMedium,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                      ),
                       onChanged: (value) {
                         numLook?.change(value.length.toDouble());
                       },
@@ -233,7 +236,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           hintText: "Password",
                           hintStyle: TextStyle(color: Colors.black)),
                       obscureText: true,
-                      style: Theme.of(context).textTheme.bodyMedium,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                      ),
                       onChanged: (value) {},
                     ),
                   ),
@@ -255,7 +261,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           hintText: "Confirm Password",
                           hintStyle: TextStyle(color: Colors.black)),
                       obscureText: true,
-                      style: Theme.of(context).textTheme.bodyMedium,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                      ),
                       onChanged: (value) {},
                     ),
                   ),
