@@ -259,16 +259,16 @@ class _EventCardState extends State<EventCard> {
 
                 // Check if the user is already subscribed to this event
                 final QuerySnapshot existingSubscription =
-                await FirebaseFirestore.instance
-                    .collection('event_subscribers_${eventData['eventId']}')
-                    .where('userId', isEqualTo: userId)
-                    .get();
+                    await FirebaseFirestore.instance
+                        .collection('event_subscribers_${eventData['eventId']}')
+                        .where('userId', isEqualTo: userId)
+                        .get();
 
                 if (existingSubscription.docs.isNotEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content:
-                      Text('You are already subscribed to this event!'),
+                          Text('You are already subscribed to this event!'),
                     ),
                   );
                   Navigator.of(context).pop(); // Close dialog
@@ -284,8 +284,8 @@ class _EventCardState extends State<EventCard> {
 
                   // Use event ID and user ID as a unique identifier for the subscription
                   final CollectionReference eventSubscribersCollection =
-                  FirebaseFirestore.instance.collection(
-                      'event_subscribers_${eventData['eventId']}');
+                      FirebaseFirestore.instance.collection(
+                          'event_subscribers_${eventData['eventId']}');
                   eventSubscribersCollection.add(subscriberData).then((_) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('successfully')),
@@ -298,7 +298,7 @@ class _EventCardState extends State<EventCard> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                           content:
-                          Text('Failed to subscribe to the event: $error')),
+                              Text('Failed to subscribe to the event: $error')),
                     );
                   });
 
@@ -342,11 +342,15 @@ class EventDetailsScreen extends StatelessWidget {
 
   // Function to open Google Maps
   _launchMaps(String address) async {
-    final url = 'https://www.google.com/maps/search/?api=1&query=$address';
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (address != null && address.isNotEmpty) {
+      final url = address;
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
     } else {
-      throw 'Could not launch $url';
+      throw 'Address is null or empty';
     }
   }
 
@@ -379,8 +383,8 @@ class EventDetailsScreen extends StatelessWidget {
                               onTap: () {
                                 Navigator.push(context,
                                     MaterialPageRoute(builder: (_) {
-                                      return DetailScreen(imageUrl: imageUrl);
-                                    }));
+                                  return DetailScreen(imageUrl: imageUrl);
+                                }));
                               },
                               child: Hero(
                                 tag: imageUrl,
@@ -428,8 +432,26 @@ class EventDetailsScreen extends StatelessWidget {
                   // Add button to open Google Maps
                   ElevatedButton(
                     onPressed: () {
-                      // Pass the event address to the function
-                      _launchMaps('${event['address']}');
+                      String address = event['address'] ??
+                          ''; // Use default empty string if address is null
+                      if (address.isNotEmpty) {
+                        _launchMaps(address);
+                      } else {
+                        // Handle case where address is empty or null
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: Text('Error'),
+                            content: Text('Address is not available'),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: Text('OK'),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color.fromARGB(255, 41, 169, 92),
@@ -439,9 +461,15 @@ class EventDetailsScreen extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.location_on,color: Colors.white,),
+                          Icon(
+                            Icons.location_on,
+                            color: Colors.white,
+                          ),
                           SizedBox(width: 10),
-                          Text('show location in maps'.tr,style: TextStyle(color: Colors.white),),
+                          Text(
+                            'show location in maps'.tr,
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ],
                       ),
                     ),
@@ -455,7 +483,8 @@ class EventDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoCard(BuildContext context, {required String title, required String value}) {
+  Widget _buildInfoCard(BuildContext context,
+      {required String title, required String value}) {
     return Card(
       elevation: 2,
       margin: EdgeInsets.only(bottom: 20),
@@ -503,7 +532,6 @@ class DetailScreen extends StatelessWidget {
     );
   }
 }
-
 
 class EventScreen extends StatelessWidget {
   @override

@@ -34,7 +34,7 @@ class _DisplayProductsPageState extends State<DisplayProductsPage> {
       ),
       body: Column(
         children: [
-          SearchBar(), // استدعاء الـ SearchBar هنا
+          SearchBar(controller: _searchController), // تمرير الـ controller هنا
           Expanded(
             child: StreamBuilder(
               stream:
@@ -83,9 +83,11 @@ class _DisplayProductsPageState extends State<DisplayProductsPage> {
   }
 }
 
-// إضافة الـ SearchBar
+// إضافة الـ SearchBar مع controller
 class SearchBar extends StatelessWidget {
-  const SearchBar({Key? key}) : super(key: key);
+  final TextEditingController controller;
+
+  const SearchBar({Key? key, required this.controller}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +104,7 @@ class SearchBar extends StatelessWidget {
               elevation: 4,
               borderRadius: BorderRadius.circular(30),
               child: TextFormField(
+                controller: controller, // استخدام الـ controller هنا
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -217,8 +220,7 @@ class ProductCard extends StatelessWidget {
                         SizedBox(height: 10),
                         ElevatedButton(
                           onPressed: () {
-                            launchPhoneCall(context,
-                                number: product['phone_number'.tr]);
+                            launchPhoneCall(context, number: product['phone']);
                           },
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all<Color>(
@@ -273,27 +275,31 @@ class ProductCard extends StatelessWidget {
     );
   }
 
-  void launchWhatsApp(BuildContext context, {required String number}) async {
-    String whatsappUrl = "https://wa.me/+2$number";
+  Future<void> launchWhatsApp(BuildContext context,
+      {required String number}) async {
+    // استخدام Intent لفتح تطبيق واتساب على أنظمة Android
+    final url = "https://wa.me/+2$number";
+    final whatsappUrl = "whatsapp://send?phone=+2$number";
+
     if (await canLaunch(whatsappUrl)) {
       await launch(whatsappUrl);
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Could not launch WhatsApp for this number: $number '),
-        ),
-      );
+      // إذا فشل استخدام whatsappUrl، استخدم الرابط العادي
+      await launch(url);
     }
   }
 
-  void launchPhoneCall(BuildContext context, {required String number}) async {
-    String phoneCallUrl = "tel:$number";
-    await canLaunch(phoneCallUrl)
-        ? launch(phoneCallUrl)
-        : ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Could not make a phone call'),
-            ),
-          );
+  Future<void> launchPhoneCall(BuildContext context,
+      {required String number}) async {
+    final phoneCallUrl = "tel:$number";
+    if (await canLaunch(phoneCallUrl)) {
+      await launch(phoneCallUrl);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Could not make a phone call to this number: $number'),
+        ),
+      );
+    }
   }
 }

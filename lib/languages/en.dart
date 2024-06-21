@@ -81,6 +81,7 @@ const Map<String, String> en = {
   'distance': 'Distance:',
   'fee': 'Fee:',
   'insurance': 'Insurance:',
+  'Insurance': 'Insurance:',
   'subscribe': 'Subscribe',
   'subscribed': 'Subscribed:',
   'subscribers': 'Subscribers:',
