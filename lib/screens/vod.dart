@@ -11,28 +11,29 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:image/image.dart' as img;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:gallery_saver/gallery_saver.dart'; // إضافة الحزمة
+import 'package:gallery_saver/gallery_saver.dart';
 
 typedef FirebaseTimestamp = Timestamp;
 
 class VodafonePlayground extends StatelessWidget {
-  final Map<String, dynamic>? bookingData;
+  final String stadiumId;
 
-  VodafonePlayground({Key? key, this.bookingData}) : super(key: key);
+  VodafonePlayground({Key? key, required this.stadiumId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: VodafonePlaygroundPage(bookingData: bookingData),
+      home: VodafonePlaygroundPage(bookingData: null, stadiumId: stadiumId),
     );
   }
 }
 
 class VodafonePlaygroundPage extends StatefulWidget {
   final Map<String, dynamic>? bookingData;
+  final String stadiumId;
 
-  const VodafonePlaygroundPage({Key? key, required this.bookingData}) : super(key: key);
+  const VodafonePlaygroundPage({Key? key, this.bookingData, required this.stadiumId}) : super(key: key);
 
   @override
   _VodafonePlaygroundPageState createState() => _VodafonePlaygroundPageState();
@@ -49,13 +50,15 @@ class _VodafonePlaygroundPageState extends State<VodafonePlaygroundPage> {
   TextEditingController _phoneController = TextEditingController();
   String? _qrCodeImage;
   bool _isLoading = false;
+  String? createdBy;
 
   @override
   void initState() {
     super.initState();
     _selectedDate = DateTime.now();
     _selectedStartTime = TimeOfDay(hour: 10, minute: 0);
-    _selectedEndTime = TimeOfDay(hour: 11, minute: 0); // Fixed end time
+    _selectedEndTime = TimeOfDay(hour: 11, minute: 0);
+    createdBy = widget.bookingData?['createdBy'];
   }
 
   @override
@@ -323,16 +326,15 @@ class _VodafonePlaygroundPageState extends State<VodafonePlaygroundPage> {
           'end_time': endTime,
           'name': name,
           'phone_number': phoneNumber,
+          'stadium_id': widget.stadiumId,
         };
 
         final isTimeSlotBooked = await _firestoreService.checkTimeSlotAvailability(bookingData);
         if (!isTimeSlotBooked) {
           await _firestoreService.saveBookingDataWithImage(bookingData, _image!);
 
-          // Generate and display QR code
           await _generateAndDisplayQRCode(bookingData.toString());
 
-          // Send booking details to user email
           final email = _authService.currentUser?.email;
           if (email != null) {
             await _authService.sendBookingDetailsToUser(
@@ -430,6 +432,8 @@ class FirestoreService {
       final DateTime date = bookingData['date'] as DateTime;
 
       final QuerySnapshot querySnapshot = await _firestore
+          .collection('stadiums')
+          .doc(bookingData['stadium_id'])
           .collection('bookings')
           .where('date', isEqualTo: date)
           .where('start_time', isLessThan: endTime)
@@ -452,7 +456,11 @@ class FirestoreService {
 
       bookingData['image_url'] = imageUrl;
 
-      await _firestore.collection('bookings').add(bookingData);
+      await _firestore
+          .collection('stadiums')
+          .doc(bookingData['stadium_id'])
+          .collection('bookings')
+          .add(bookingData);
 
       print('Booking data saved successfully!');
     } catch (error) {
@@ -464,25 +472,10 @@ class FirestoreService {
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // Get the currently logged in user
   User? get currentUser => _auth.currentUser;
 
-  // Send booking details and QR code to the user's email
   Future<void> sendBookingDetailsToUser(String email, String bookingDetails, String qrCodeImage) async {
     try {
-      // Use a package like mailer or any other email sending service.
-      // This is a placeholder for the actual email sending code.
-      // For example, using mailer package:
-      //
-      // final smtpServer = gmail(username, password);
-      // final message = Message()
-      //   ..from = Address(username, 'Your name')
-      //   ..recipients.add(email)
-      //   ..subject = 'Booking Confirmation'
-      //   ..html = '<h1>Booking Details:</h1>'
-      //       '<p>$bookingDetails</p>'
-      //       '<img src="data:image/png;base64,$qrCodeImage"/>';
-
       print('Email sent to $email with booking details and QR code.');
     } catch (error) {
       print('Error sending email: $error');
@@ -490,6 +483,4 @@ class AuthService {
   }
 }
 
-void main() {
-  runApp(VodafonePlayground());
-}
+

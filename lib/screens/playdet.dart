@@ -11,20 +11,16 @@ import '../constants.dart';
 class PlaygroundDetailsPage extends StatelessWidget {
   final Map<String, dynamic> playgroundData;
 
-  const PlaygroundDetailsPage({Key? key, required this.playgroundData})
-      : super(key: key);
+  const PlaygroundDetailsPage({Key? key, required this.playgroundData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var themeProvider = Provider.of<ThemeProvider>(context);
 
-
     Color buttonColor = themeProvider.themeMode == ThemeMode.dark
         ? Color.fromARGB(255, 41, 169, 92)
         : Color.fromARGB(255, 115, 113, 113);
-    Color textColor = themeProvider.themeMode == ThemeMode.dark
-        ? Colors.grey[200]!
-        : Colors.black;
+    Color textColor = themeProvider.themeMode == ThemeMode.dark ? Colors.grey[200]! : Colors.black;
     if (playgroundData == null || playgroundData.isEmpty) {
       return Scaffold(
         appBar: AppBar(
@@ -65,13 +61,11 @@ class PlaygroundDetailsPage extends StatelessWidget {
                       context,
                       'name:'.tr,
                       playgroundData['name'],
-
                     ),
                   ),
                   SizedBox(width: 16),
                   Expanded(
-                    child:
-                    _buildDetail(context,'sport_type'.tr, playgroundData['type']),
+                    child: _buildDetail(context, 'sport_type'.tr, playgroundData['type']),
                   ),
                 ],
               ),
@@ -85,7 +79,8 @@ class PlaygroundDetailsPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
-                        child: _buildDetail(context,
+                        child: _buildDetail(
+                          context,
                           'description'.tr,
                           playgroundData['stadiumDetails'],
                         ),
@@ -102,13 +97,11 @@ class PlaygroundDetailsPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                    child: _buildDetail(context,
-                        'open_time'.tr, playgroundData['openTime']),
+                    child: _buildDetail(context, 'open_time'.tr, playgroundData['openTime']),
                   ),
                   SizedBox(width: 16),
                   Expanded(
-                    child: _buildDetail(context,
-                        'close_time'.tr, playgroundData['closeTime']),
+                    child: _buildDetail(context, 'close_time'.tr, playgroundData['closeTime']),
                   ),
                 ],
               ),
@@ -119,12 +112,11 @@ class PlaygroundDetailsPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                    child: _buildDetail(context,'price'.tr, playgroundData['price']),
+                    child: _buildDetail(context, 'price'.tr, playgroundData['price']),
                   ),
                   SizedBox(width: 16),
                   Expanded(
-                    child:
-                    _buildDetail(context,'lockers'.tr, playgroundData['lockers']),
+                    child: _buildDetail(context, 'lockers'.tr, playgroundData['lockers']),
                   ),
                 ],
               ),
@@ -146,8 +138,7 @@ class PlaygroundDetailsPage extends StatelessWidget {
                             backgroundColor: MaterialStateProperty.all<Color>(
                               Color.fromARGB(255, 41, 169, 92),
                             ),
-                            minimumSize: MaterialStateProperty.all<Size>(
-                                Size(double.infinity, 55)),
+                            minimumSize: MaterialStateProperty.all<Size>(Size(double.infinity, 55)),
                             shape: MaterialStateProperty.all<OutlinedBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(24),
@@ -173,11 +164,14 @@ class PlaygroundDetailsPage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => VodafonePlayground()),
-                  );
+                  // تأكد من أن playgroundData يحتوي على 'stadium_id'
+                  var stadiumId = playgroundData['stadium_id'];
+                  if (stadiumId != null) {
+                    _bookPlayground(context, stadiumId);
+                  } else {
+                    // Handle the null case, maybe show an error message
+                    print('Stadium ID is null');
+                  }
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(
@@ -206,7 +200,8 @@ class PlaygroundDetailsPage extends StatelessWidget {
                     ),
                   ],
                 ),
-              ),
+              )
+
             ),
             SizedBox(height: 16),
           ],
@@ -294,10 +289,21 @@ class PlaygroundDetailsPage extends StatelessWidget {
     }
   }
 
-  void _bookPlayground(BuildContext context) async {
+  void _bookPlayground(BuildContext context, String? stadiumId) {
+    if (stadiumId == null) {
+      // Handle the null case, maybe show an error message
+      print('Cannot navigate to booking page without a stadium ID');
+      return;
+    }
+
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => VodafonePlayground()),
+      MaterialPageRoute(
+        builder: (context) => VodafonePlayground(stadiumId: stadiumId),
+      ),
     );
   }
+
+
+
 }
